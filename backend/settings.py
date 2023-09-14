@@ -41,10 +41,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 
                  'localhost',
-                 
+
                  # this is the heroku app link
                 "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
-                "web-production-2b33.up.railway.app",
+                "https://web-production-2b33.up.railway.app",
                 ]
 
 
@@ -285,7 +285,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     # this is the heroku app link
     "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
-    "web-production-2b33.up.railway.app"
+    "https://web-production-2b33.up.railway.app"
 ]
 
 # Default primary key field type
