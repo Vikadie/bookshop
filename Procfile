@@ -1,5 +1,4 @@
-web: gunicorn backend.wsgi
-release: python manage.py migrate
+web: python manage.py migrate && gunicorn backend.wsgi
 
 <!-- First we will point to our wsgi.py file in the backend project -->
 
