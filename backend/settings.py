@@ -129,7 +129,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
     # adding whitenoise middleware just below SecurityMiddleware
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
