@@ -23,7 +23,7 @@ def getProducts(request):
     # we need to paginate now
     # we take to page as search params from the front-end
     page = request.query_params.get('page')
-    paginator = Paginator(products, 5)
+    paginator = Paginator(products, 4)
 
     if page == None:
         page = 1
