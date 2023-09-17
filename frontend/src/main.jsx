@@ -7,7 +7,7 @@ import axios from "axios";
 import { Provider } from "react-redux";
 import { store } from "./store/index.js";
 
-axios.defaults.baseURL = "http://127.0.0.1:8000/";
+axios.defaults.baseURL = import.meta.env.VITE_APP_BACKEND_URL;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     // <React.StrictMode>
