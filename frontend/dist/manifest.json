@@ -1,0 +1,14 @@
+{
+  "index.css": {
+    "file": "static/index-f4056dcb.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "css": [
+      "static/index-f4056dcb.css"
+    ],
+    "file": "static/index-c47acdb8.js",
+    "isEntry": true,
+    "src": "index.html"
+  }
+}
