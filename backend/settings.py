@@ -40,13 +40,13 @@ DEBUG = True
 # DEBUG = False
 
 ALLOWED_HOSTS = ['*'
-    # '127.0.0.1', 
-    # 'localhost',
+                 # '127.0.0.1',
+                 # 'localhost',
 
-    # # this is the heroku app link
-    # "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
-    # "https://web-production-2b33.up.railway.app",
-                ]
+                 # # this is the heroku app link
+                 # "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
+                 # "https://web-production-2b33.up.railway.app",
+                 ]
 
 
 # Application definition
@@ -286,7 +286,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     # this is the heroku app link
     "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
-    "https://web-production-2b33.up.railway.app"
+    "https://web-production-2b33.up.railway.app",
+
+    # this is Amazon server:
+    "https://ec2-16-171-39-26.eu-north-1.compute.amazonaws.com"
 ]
 
 # Default primary key field type
@@ -298,6 +301,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 if os.getcwd() == '/app':
     DEBUG = False
 
+print('DEBUG is', DEBUG)
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': True,
