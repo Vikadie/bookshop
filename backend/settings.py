@@ -289,7 +289,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://web-production-2b33.up.railway.app",
 
     # this is Amazon server:
-    "https://ec2-16-171-39-26.eu-north-1.compute.amazonaws.com"
+    "https://16.170.82.213"
 ]
 
 # Default primary key field type
