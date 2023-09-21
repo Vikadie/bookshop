@@ -289,6 +289,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://web-production-2b33.up.railway.app",
 
     # this is Amazon server:
+    "https://mravolak.mine.bz",
     "https://16.170.82.213"
 ]
 
