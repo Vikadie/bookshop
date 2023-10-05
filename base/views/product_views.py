@@ -23,13 +23,20 @@ def getProducts(request):
     # we need to paginate now
     # we take to page as search params from the front-end
     page = request.query_params.get('page')
-    paginator = Paginator(products, 4)
+    perPage = request.query_params.get('perPage')
+    paginator = Paginator(
+        products, per_page=perPage if perPage is not None else 4)
 
     if page == None:
         page = 1
 
     page = int(page)
 
+    if perPage == None:
+        perPage = 4
+
+    perPage = int(perPage)
+    print(perPage)
     try:
         products = paginator.page(page)
     except PageNotAnInteger:  # if we have not sent a page at all
@@ -40,7 +47,7 @@ def getProducts(request):
 
     # we are serizlizing many products
     serializer = ProductSerializer(products, many=True)
-    return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
+    return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages, 'perPage': perPage})
 
 
 @api_view(['GET'])

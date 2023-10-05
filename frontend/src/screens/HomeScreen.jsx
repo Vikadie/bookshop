@@ -14,7 +14,7 @@ const HomeScreen = () => {
 
     const dispatch = useDispatch();
     const productList = useSelector((state) => state.productList);
-    const { products, loading, error, page, pages } = productList;
+    const { products, loading, error, page, pages, perPage } = productList;
 
     useEffect(() => {
         dispatch(fetchListProducts(keyword));
@@ -38,7 +38,7 @@ const HomeScreen = () => {
                                 </Col>
                             ))}
                     </Row>
-                    <Paginate pages={pages} page={page} keyword={keyword} />
+                    <Paginate pages={pages} page={page} keyword={keyword} perPage={perPage} />
                 </React.Fragment>
             )}
         </div>

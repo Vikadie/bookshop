@@ -6,16 +6,19 @@ import "./bootstrap.min.css";
 import axios from "axios";
 import { Provider } from "react-redux";
 import { store } from "./store/index.js";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { FacebookProvider } from "react-facebook";
 
 axios.defaults.baseURL = import.meta.env.VITE_APP_BACKEND_URL;
-console.log("prod?", import.meta.env.PROD);
-console.log("dev?", import.meta.env.DEV);
-console.log("base_url?", import.meta.env.BASE_URL);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     // <React.StrictMode>
     <Provider store={store}>
-        <App />
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <FacebookProvider appId={import.meta.env.VITE_FB_APP_ID}>
+                <App />
+            </FacebookProvider>
+        </GoogleOAuthProvider>
     </Provider>
     // </React.StrictMode>
 );

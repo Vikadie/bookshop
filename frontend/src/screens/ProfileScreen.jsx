@@ -10,6 +10,7 @@ import Loader from "../component/Loader";
 
 const ProfileScreen = () => {
     const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -38,6 +39,7 @@ const ProfileScreen = () => {
                 success ? setTimeout(init, 1000) : init();
             } else {
                 setName(user.name);
+                setLastName(user.lastName);
                 setEmail(user.email);
             }
         }
@@ -61,6 +63,7 @@ const ProfileScreen = () => {
             updateUserProfile({
                 id: user._id,
                 name,
+                lastName,
                 email,
                 password,
             })
@@ -83,6 +86,18 @@ const ProfileScreen = () => {
                             placeholder="Enter your name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            autoComplete="new-name"
+                        ></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId="lastName" className="mb-3">
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
+                            required
+                            type="name"
+                            placeholder="Enter your family name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                             autoComplete="new-name"
                         ></Form.Control>
                     </Form.Group>

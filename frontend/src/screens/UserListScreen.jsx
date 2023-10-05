@@ -43,6 +43,7 @@ const UserListScreen = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>ADMIN</th>
+                            <th>Confirmed</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -54,6 +55,13 @@ const UserListScreen = () => {
                                 <td>{user.email}</td>
                                 <td>
                                     {user.isAdmin ? (
+                                        <i className="fas fa-check" style={{ color: "green" }}></i>
+                                    ) : (
+                                        <i className="fas fa-check" style={{ color: "red" }}></i>
+                                    )}
+                                </td>
+                                <td>
+                                    {user.confirmed ? (
                                         <i className="fas fa-check" style={{ color: "green" }}></i>
                                     ) : (
                                         <i className="fas fa-check" style={{ color: "red" }}></i>

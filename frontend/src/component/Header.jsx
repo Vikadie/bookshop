@@ -1,13 +1,21 @@
-import React from "react";
-import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Button, ButtonGroup, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../store/actions/userActions";
 import SearchBox from "./SearchBox";
+import Translation from "../utils/Translation";
+import CTX from "../utils/context";
 
 const Header = () => {
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.userData.userInfo);
+    const { context, setContext } = useContext(CTX);
+
+    const changeLang = (value) => {
+        context.lang = value;
+        setContext({ ...context });
+    };
 
     const logoutHandler = () => {
         dispatch(logout());
@@ -28,7 +36,7 @@ const Header = () => {
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <SearchBox />
+                        <SearchBox className="col-7" />
                         <Nav className="ml-auto">
                             <LinkContainer to="/cart">
                                 <Nav.Link>
@@ -70,6 +78,15 @@ const Header = () => {
                             )}
                         </Nav>
                     </Navbar.Collapse>
+                    <ButtonGroup variant="dark" size="sm" aria-label="outlined dark button group">
+                        {Translation.getLangs()
+                            .filter((x) => x.id !== context.lang)
+                            .map((x) => (
+                                <Button key={x.id} onClick={() => changeLang(x.id)}>
+                                    {x.id}
+                                </Button>
+                            ))}
+                    </ButtonGroup>
                 </Container>
             </Navbar>
         </header>

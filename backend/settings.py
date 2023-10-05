@@ -44,8 +44,8 @@ ALLOWED_HOSTS = ['*'
                  # 'localhost',
 
                  # # this is the heroku app link
-                 # "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
-                 # "https://web-production-2b33.up.railway.app",
+                 # "mravolak-bookshop-ccd79b877dad.herokuapp.com",
+                 # "web-production-2b33.up.railway.app",
                  ]
 
 
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
 
+    # whitenoise recommended when running live for serving static files with compressed size
     "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
 
@@ -67,10 +68,12 @@ INSTALLED_APPS = [
     "corsheaders",  # linked with pip install django-cors-headers
 
     'storages',  # storage linked with AWS S3 buchet storage
-
+    # the app
     'base.apps.BaseConfig',  # we point at the Config class found in our app_name/apps.py
     # we use base.apps.BaseConfig, so that it goes into base/apps.py folder and connects/start using the signals
 ]
+
+AUTH_USER_MODEL = 'base.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -145,7 +148,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'frontend/dist')
+            os.path.join(BASE_DIR, 'frontend/dist'),
+            os.path.join(BASE_DIR, 'templates'),
         ],  # setting the route to the index.html location
         'APP_DIRS': True,
         'OPTIONS': {
@@ -192,7 +196,7 @@ DATABASES = {
         'NAME': 'bookshop',
         'USER': 'vikadie',
         'PASSWORD': os.environ.get('DB_PASS'),
-        'HOST': 'bookshop-identifier.cuzbdwwwlaoy.eu-north-1.rds.amazonaws.com',
+        'HOST': os.environ.get('DB_HOST'),
         'PORT': '5432'
     }
 }
@@ -257,10 +261,10 @@ STORAGES = {
         "OPTIONS": {},
     },
     "staticfiles": {
-        # general static folder storage
-        # "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        # staticfolder storage useing whitenoise
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # general static folder storage - NB! - uncomment when using 'collectstatic'
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # staticfolder storage useing whitenoise - NB! - comment when using 'collectstatic'
+        # "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         "OPTIONS": {},
     },
 }
@@ -286,12 +290,22 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     # this is the heroku app link
     "https://mravolak-bookshop-ccd79b877dad.herokuapp.com",
+    # this is the railway app link
     "https://web-production-2b33.up.railway.app",
 
     # this is Amazon server:
     "https://mravolak.mine.bz",
-    "https://16.170.82.213"
+    "http://16.170.82.213:8000"
 ]
+
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mravolak@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get(
+    'MRAVOLAK_GMAIL')  # the two verification password
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

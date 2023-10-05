@@ -3,8 +3,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../component/FormContainer";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
-import { login } from "../store/actions/userActions";
+import { login, googleLogin, FBLogin } from "../store/actions/userActions";
 import Loader from "../component/Loader";
+import { GoogleLogin } from "@react-oauth/google";
+import { LoginButton as FacebookButton } from "react-facebook";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState("");
@@ -29,6 +31,7 @@ const LoginScreen = () => {
 
         dispatch(login(email, password));
     };
+
     return (
         <div>
             <FormContainer>
@@ -63,10 +66,49 @@ const LoginScreen = () => {
                         </Button>
                     </Col>
                 </Form>
+
                 <Row className="py-3">
                     <Col>
                         New Customer ?{" "}
-                        <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>Register</Link>
+                        <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
+                            Register here
+                        </Link>{" "}
+                        or sign in via:
+                    </Col>
+                </Row>
+                <Row className="py-2">
+                    <Col align="center">
+                        <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                                dispatch(googleLogin(credentialResponse));
+                            }}
+                            onError={() => {
+                                console.log("Login Failed");
+                            }}
+                            theme="filled_black"
+                            size="meduim"
+                            text="continue_with"
+                            shape="square"
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col align="center">
+                        <FacebookButton
+                            scope="email"
+                            onError={(err) => {
+                                console.log("Login Failed with error: ", error);
+                            }}
+                            onSuccess={(response) => {
+                                if (response.status === "connected") {
+                                    dispatch(FBLogin(response.authResponse));
+                                }
+                            }}
+                            className="btn-fb"
+                        >
+                            <i className="fa-brands fa-square-facebook pe-5"></i>
+                            <span className="pe-4">Login via Facebook</span>
+                        </FacebookButton>
                     </Col>
                 </Row>
             </FormContainer>

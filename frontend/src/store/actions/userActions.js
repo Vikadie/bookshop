@@ -1,6 +1,7 @@
 import axios from "axios";
 import { userActions as actions, updateUserActions, userAdminActions } from "../reducers/userReducer";
 import { OrderListActions } from "../reducers/orderReducer";
+import { googleLogout } from "@react-oauth/google";
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -28,11 +29,82 @@ export const login = (email, password) => async (dispatch) => {
     }
 };
 
+export const loginConfirmed = (key) => async (dispatch) => {
+    try {
+        dispatch(actions.userLoginRequest());
+
+        const config = {
+            headers: { "Content-type": "application/json" },
+        };
+
+        const { data } = await axios.get(`/api/users/confirmation/${key}`, config);
+
+        dispatch(actions.userLoginSuccess(data));
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+        dispatch(
+            actions.userLoginFail(
+                error.response && error.response.data.detail ? error.response.data.detail : error.message
+            )
+        );
+    }
+};
+
+export const googleLogin = (credentialResponse) => async (dispatch) => {
+    try {
+        dispatch(actions.userLoginRequest());
+
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post("/api/users/googleLogin/", credentialResponse, config);
+
+        dispatch(actions.userLoginSuccess(data));
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+        dispatch(
+            actions.userLoginFail(
+                error.response && error.response.data.detail ? error.response.data.detail : error.message
+            )
+        );
+    }
+};
+
+export const FBLogin = (authResponse) => async (dispatch) => {
+    try {
+        dispatch(actions.userLoginRequest());
+
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post("/api/users/FBLogin/", authResponse, config);
+
+        dispatch(actions.userLoginSuccess(data));
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+    } catch (error) {
+        dispatch(
+            actions.userLoginFail(
+                error.response && error.response.data.detail ? error.response.data.detail : error.message
+            )
+        );
+    }
+};
+
 export const logout = () => (dispatch) => {
     dispatch(actions.userLogout());
 
     localStorage.removeItem("userInfo");
 
+    googleLogout();
     dispatch(OrderListActions.myOrderListReset());
     dispatch(userAdminActions.userListReset());
 };
@@ -51,7 +123,9 @@ export const register = (name, email, password) => async (dispatch) => {
             config
         );
 
-        dispatch(actions.userRegisterSuccess(data));
+        if (data.confirmed) {
+            dispatch(actions.userRegisterSuccess(data));
+        }
 
         dispatch(login(email, password));
 

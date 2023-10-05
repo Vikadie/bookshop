@@ -6,10 +6,14 @@ urlpatterns = [
     # other routes
     path("login/", views.MyTokenObtainPairView.as_view(),
          name='token_obtain_pair'),
+    path("googleLogin/", views.googleLoginUser, name="google-login"),
+    path("FBLogin/", views.facebookLogin, name="facebook-login"),
     path("register/", views.registerUser, name="register"),
     path("profile/", view=views.getUserProfile, name="users-profile"),
     path("profile/update/", view=views.updateUserProfile,
          name="users-profile-update"),
+    path("confirmation/<str:key>/", view=views.confirmation,
+         name="new-user-confirmation"),
 
     # admin routes
     path("", view=views.getUsers, name="users"),

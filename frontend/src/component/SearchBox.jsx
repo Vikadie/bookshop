@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const SearchBox = () => {
+const SearchBox = ({ className }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -17,7 +17,7 @@ const SearchBox = () => {
         }
     };
     return (
-        <Form onSubmit={submitHandler}>
+        <Form className={className} onSubmit={submitHandler}>
             <Row className="align-items-center">
                 <Col xs={8}>
                     <Form.Control

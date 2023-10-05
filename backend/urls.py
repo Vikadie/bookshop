@@ -28,7 +28,11 @@ urlpatterns = [
     # path("api/", include('base.urls')),
 
     # the path for rendering the React project on Django main port 8000
-    path('', TemplateView.as_view(template_name="index.html")),
+    path('', TemplateView.as_view(template_name="index.html"), name="home"),
+
+    # the path for rendering the React project on Django main port 8000
+    path('generalterms/', TemplateView.as_view(template_name="general_terms.html"),
+         name="general-terms"),
 
     path('api/products/', include('base.urls.product_urls')),
     path('api/users/', include('base.urls.user_urls')),

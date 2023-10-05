@@ -13,6 +13,7 @@ const UserEditScreen = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [isAdmin, setIsAdmin] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
 
     const { userId } = useParams();
 
@@ -35,6 +36,7 @@ const UserEditScreen = () => {
                 setName(user.name);
                 setEmail(user.email);
                 setIsAdmin(user.isAdmin);
+                setConfirmed(user.confirmed);
             }
         }
     }, [user.name, user._id, userId, successAdminUpdate]);
@@ -48,6 +50,7 @@ const UserEditScreen = () => {
                 name,
                 email,
                 isAdmin,
+                confirmed,
             })
         );
     };
@@ -86,12 +89,21 @@ const UserEditScreen = () => {
                             ></Form.Control>
                         </Form.Group>
 
-                        <Form.Group controlId="password" className="mb-3">
+                        <Form.Group controlId="password">
                             <Form.Check
                                 type="checkbox"
                                 label="IsAdmin"
                                 checked={isAdmin}
                                 onChange={(e) => setIsAdmin(e.target.checked)}
+                            ></Form.Check>
+                        </Form.Group>
+
+                        <Form.Group controlId="password" className="mb-3">
+                            <Form.Check
+                                type="checkbox"
+                                label="Confirmed"
+                                checked={confirmed}
+                                onChange={(e) => setConfirmed(e.target.checked)}
                             ></Form.Check>
                         </Form.Group>
 

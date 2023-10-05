@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialProductState = { products: [], loading: false, error: null, page: 1, pages: 1 };
+const initialProductState = { products: [], loading: false, error: null, page: 1, pages: 1, perPage: 4 };
 
 const productListSlice = createSlice({
     name: "productList",
@@ -13,6 +13,7 @@ const productListSlice = createSlice({
             state.products = action.payload.products;
             state.page = action.payload.page;
             state.pages = action.payload.pages;
+            state.perPage = action.payload.perPage;
             state.loading = false;
         },
         productListFail(state, action) {

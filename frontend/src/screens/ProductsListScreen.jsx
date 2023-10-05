@@ -14,7 +14,7 @@ const ProductListScreen = () => {
     const dispatch = useDispatch();
 
     const productList = useSelector((state) => state.productList);
-    const { loading, error, products, page, pages } = productList;
+    const { loading, error, products, page, pages, perPage } = productList;
     const userInfo = useSelector((state) => state.userData.userInfo);
 
     const {
@@ -111,7 +111,7 @@ const ProductListScreen = () => {
                             ))}
                         </tbody>
                     </Table>
-                    <Paginate pages={pages} page={page} isAdmin={true} />
+                    <Paginate pages={pages} page={page} isAdmin={true} perPage={perPage} />
                 </React.Fragment>
             )}
         </div>
