@@ -117,7 +117,7 @@ const OrderScreen = () => {
                                         })}
                                     </Alert>
                                 ) : (
-                                    <Alert variant="warning">Not delivered</Alert>
+                                    <Alert variant="warning">Not delivered yet</Alert>
                                 )}
                             </ListGroup.Item>
 
@@ -156,10 +156,7 @@ const OrderScreen = () => {
                                                 <Row>
                                                     <Col md={1}>
                                                         <Image
-                                                            src={
-                                                                axios.defaults.baseURL.slice(0, -1) +
-                                                                item.image
-                                                            }
+                                                            src={item.image}
                                                             alt={item.name}
                                                             fluid
                                                             rounded

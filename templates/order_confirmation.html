@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <p>Здравейте,</p>
+
+        <p>
+            На {{created_at}} получихме поръчката ви в "<b><a href="{{current_url}}">Мраволак</a></b
+            >" със следните данни.
+        </p>
+        <div>
+            {% load add_filters %}
+            <h3>Order: {{order_number}}</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="list-group list-group-flush">
+                        <fieldset>
+                            <legend>Shipping</legend>
+                            <p><strong>Name: </strong> {{user_mail}}</p>
+                            <p>
+                                <strong>Email: </strong>
+                                <a href="mailto:{{user_mail}}">{{user_mail}}</a>
+                            </p>
+                            <p><strong>Shipping: </strong>{{shipping_address}}</p>
+                            <div role="alert" class="fade alert alert-warning show">{{delivery_status}}</div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Payment method</legend>
+                            <p><strong>Method: </strong>{{payment_method}}</p>
+                            {% if payment_method != "PayOnDelivery" %}
+                            <div role="alert" class="fade alert alert-warning show">
+                                Paiement not received yet
+                            </div>
+                            {% endif %}
+                        </fieldset>
+                        <fieldset>
+                            <legend>Order Items</legend>
+                            <table>
+                                <thead></thead>
+                                <tbody>
+                                    {% for item in ordered_items %}
+                                    <tr>
+                                        <td>
+                                            <img src="{{item.image}}" alt="{{item.title}}" width="80px" />
+                                        </td>
+                                        <td colspan="7">
+                                            <a href="{{current_url}}#/product/{{item.product}}"
+                                                >{{item.name}}</a
+                                            >
+                                        </td>
+                                        <td colspan="4">
+                                            {{item.qty}} x {{item.price}} BGN =
+                                            {{item.price|multiply:item.qty|toFixed:2}} BGN
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+                <fieldset>
+                    <legend>Order Summary</legend>
+                    <div class="col"><strong>Items:</strong> {{order_net_amount|toFixed:2}} BGN</div>
+
+                    <div><strong>Shipping price:</strong> {{order_shipping_amount|toFixed:2}} BGN</div>
+
+                    <div><strong>Tax (incl. above):</strong> {{order_tax|toFixed:2}} BGN</div>
+
+                    <div><strong>Total:</strong> {{order_total|toFixed:2}} BGN</div>
+                </fieldset>
+            </div>
+        </div>
+
+        <p>Поръчката Ви ще бъде обработена възможно най бързо.</p>
+        {% if payment_method != "PayOnDelivery" %}
+        <p>След получаване на потвърждение за плащането, тя ще бъде своевременно изпратена.</p>
+        {% endif %}
+        <em>Благодарим за направената поръчка,</em><br />
+        <em>
+            Екипът на "<b><a href="{{current_url}}">Мраволак</a></b
+            >"
+        </em>
+    </body>
+</html>

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { addToCart, removeFromCart } from "../store/actions/cartActions";
 import { Alert, ListGroup, Row, Col, Image, Form, Button } from "react-bootstrap";
-import axios from "axios";
 
 const CartScreen = () => {
     const navigate = useNavigate();
@@ -93,6 +92,16 @@ const CartScreen = () => {
                             onClick={checkoutHandler}
                         >
                             Proceed to checkout
+                        </Button>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Button
+                            type="button"
+                            className="btn-block"
+                            style={{ width: "100%" }}
+                            onClick={() => navigate("/")}
+                        >
+                            Continue browsing
                         </Button>
                     </ListGroup.Item>
                 </ListGroup>

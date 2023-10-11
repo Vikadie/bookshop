@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.getOrders, name='orders'),
     path('add/', views.addOrderItems, name='orders-add'),
     path('myorders/', views.getMyOrders, name='myorders'),
+    path('speedy/', views.getSpeedy, name='speedy'),
 
     # dynamic values as below, in order to check the concrete paths and avoid treating them as dynamic values
     path('<str:pk>/', views.getOrderById, name='user-order'),

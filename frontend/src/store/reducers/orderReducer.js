@@ -21,7 +21,10 @@ const orderReducer = createSlice({
             state.success = false;
         },
         orderCreateReset(state) {
-            state = initialOrderState;
+            state.loading = false;
+            state.success = false;
+            state.order = {};
+            state.error = null;
         },
         orderDetailRequest(state) {
             state.loading = true;

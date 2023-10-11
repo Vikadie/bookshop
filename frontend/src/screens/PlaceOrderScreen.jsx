@@ -4,7 +4,6 @@ import CheckoutSteps from "../component/CheckoutSteps";
 import { Alert, Button, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { createOrder, resetOrder } from "../store/actions/orderActions";
-import axios from "axios";
 
 const PlaceOrderScreen = () => {
     const navigate = useNavigate();
