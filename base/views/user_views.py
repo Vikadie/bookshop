@@ -147,7 +147,7 @@ def registerUser(request):
         unique_guid = uuid.uuid5(
             namespace=uuid.NAMESPACE_DNS, name=str(user.date_joined)+data['email'])
         link = f"{'http://localhost:5173/' if settings.DEBUG else request.build_absolute_uri('/')}#/confirmation/{data['email']}+{unique_guid}?redirect=/"
-        print("link", link)
+        # print("link", link)
         send_email_to_user(link, data['email'],
                            html_template='email_confirm_new_user.html')
 

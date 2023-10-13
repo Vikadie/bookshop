@@ -43,7 +43,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        print(f"self.user.is_confirmed {self.user.is_confirmed}")
+        # print(f"self.user.is_confirmed {self.user.is_confirmed}")
         if (self.user.is_confirmed):
             serializer = UserSerializerWithToken(self.user).data
         else:

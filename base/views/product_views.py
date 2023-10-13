@@ -36,7 +36,7 @@ def getProducts(request):
         perPage = 4
 
     perPage = int(perPage)
-    print(perPage)
+    # print(perPage)
     try:
         products = paginator.page(page)
     except PageNotAnInteger:  # if we have not sent a page at all
