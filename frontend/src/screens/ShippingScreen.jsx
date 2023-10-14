@@ -47,7 +47,7 @@ const ShippingScreen = () => {
                 data.address.city.postCode
             );
         }
-        console.log(JSON.stringify(event.data.office, null, 4));
+        // console.log(JSON.stringify(event.data.office, null, 4));
     };
 
     const submitHandler = (e) => {
