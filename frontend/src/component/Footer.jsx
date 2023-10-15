@@ -40,6 +40,13 @@ const Footer = () => {
                     >
                         {Translation.t(context.lang, "privacy_policy")}
                     </button>
+                    <button
+                        className="px-3"
+                        style={{ backgroundColor: "transparent", border: "none" }}
+                        onClick={() => setShow("sales_terms")}
+                    >
+                        {Translation.t(context.lang, "sales_terms")}
+                    </button>
                 </Navbar>
                 <Row>
                     <Col className="text-center pt-3">Copyright &copy; Tsveta Book</Col>

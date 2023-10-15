@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-const GenTerm = () => {
+const SalesTerms = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const next = `${searchParams.get("next") ? searchParams.get("next") : "/"}`;
@@ -119,4 +119,4 @@ const GenTerm = () => {
     );
 };
 
-export default GenTerm;
+export default SalesTerms;

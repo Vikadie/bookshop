@@ -23,8 +23,9 @@ const translations = {
     orders: { bg: "Поръчки", en: "Orders" },
     cart: { bg: "Кошница", en: "Cart" },
     search: { bg: "Търси", en: "Search" },
-    general_terms: { bg: "Доставка и плащания", en: "Delivery and payment" },
+    general_terms: { bg: "General terms", en: "Общи Условия" },
     privacy_policy: { bg: "Политика за личните данни", en: "Privacy Policy" },
+    sales_terms: { bg: "Доставка и плащания", en: "Delivery and payment" },
     free_subdomain: { bg: "домейн е предоставен безплатно от", en: "free subdomain provided by" },
 };
 

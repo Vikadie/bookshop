@@ -17,8 +17,9 @@ import ProductEditScreen from "../screens/ProductEditScreen";
 import OrderListScreen from "../screens/OrderListScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import CTX from "../utils/context";
-import GenTerm from "../component/GenTerm";
+import SalesTerms from "../component/SalesTerms";
 import PrivacyPolicy from "../component/PrivacyPolicy";
+import GeneralTerms from "../component/GeneralTerms";
 
 const Router = () => {
     const { context, setContext } = useContext(CTX);
@@ -43,8 +44,9 @@ const Router = () => {
             <Route path="/shipping" element={<ShippingScreen />} />
             <Route path="/payment" element={<PaymentScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/general_terms" element={<GenTerm />} />
+            <Route path="/general_terms" element={<GeneralTerms />} />
             <Route path="/privacy_policy" element={<PrivacyPolicy />} />
+            <Route path="/sales_terms" element={<SalesTerms />} />
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/confirmation/:key" element={<ConfirmationScreen />} />
 
