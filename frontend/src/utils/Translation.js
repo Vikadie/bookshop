@@ -14,7 +14,17 @@ const translations = {
     connectionError: { bg: "Възможен проблем с мрежата! ", en: "Connection might have been lost! " },
     remove: { bg: "Изтрий", en: "Remove" },
 
+    book_shop: { bg: 'Магазин за книги "Мраволак"', en: 'Book shop "Mravolak"' },
+    profile: { bg: "Профил", en: "Profile" },
+    logout: { bg: "Изход", en: "Logout" },
+    login: { bg: "Вход", en: "Login" },
+    users: { bg: "Потребители", en: "Users" },
+    products: { bg: "Продукти", en: "Products" },
+    orders: { bg: "Поръчки", en: "Orders" },
+    cart: { bg: "Кошница", en: "Cart" },
+    search: { bg: "Търси", en: "Search" },
     general_terms: { bg: "Доставка и плащания", en: "Delivery and payment" },
+    privacy_policy: { bg: "Политика за личните данни", en: "Privacy Policy" },
     free_subdomain: { bg: "домейн е предоставен безплатно от", en: "free subdomain provided by" },
 };
 

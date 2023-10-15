@@ -1,12 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Navbar } from "react-bootstrap";
-import GenTermModal from "./GenTermModal";
 import CTX from "../utils/context";
 import Translation from "../utils/Translation";
 
 const Footer = () => {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState("");
     const { context } = useContext(CTX);
+    console.log(window.location);
+    useEffect(() => {
+        if (show) {
+            const link = document.createElement("a");
+            link.href = `${window.location.origin}/#/${show}?next=${window.location.hash.slice(1)}`;
+            link.click();
+            setShow("");
+        }
+    }, [show]);
     return (
         <footer>
             <Container>
@@ -21,11 +29,17 @@ const Footer = () => {
                     <button
                         className="px-3"
                         style={{ backgroundColor: "transparent", border: "none" }}
-                        onClick={() => setShow(true)}
+                        onClick={() => setShow("general_terms")}
                     >
                         {Translation.t(context.lang, "general_terms")}
                     </button>
-                    <GenTermModal show={show} hide={() => setShow(false)} />
+                    <button
+                        className="px-3"
+                        style={{ backgroundColor: "transparent", border: "none" }}
+                        onClick={() => setShow("privacy_policy")}
+                    >
+                        {Translation.t(context.lang, "privacy_policy")}
+                    </button>
                 </Navbar>
                 <Row>
                     <Col className="text-center pt-3">Copyright &copy; Tsveta Book</Col>

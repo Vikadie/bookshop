@@ -36,7 +36,7 @@ const Header = () => {
             >
                 <Container>
                     <LinkContainer to="/">
-                        <Navbar.Brand>Book shop</Navbar.Brand>
+                        <Navbar.Brand>{Translation.t(context.lang, "book_shop")}</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -61,23 +61,27 @@ const Header = () => {
                                             {qty}
                                         </Badge>
                                     ) : null}
-                                    Cart
+                                    {Translation.t(context.lang, "cart")}
                                 </Nav.Link>
                             </LinkContainer>
                             {userInfo ? (
                                 <NavDropdown title={userInfo.name} id="username">
                                     <LinkContainer to="/profile">
-                                        <NavDropdown.Item>Profile</NavDropdown.Item>
+                                        <NavDropdown.Item>
+                                            {Translation.t(context.lang, "profile")}
+                                        </NavDropdown.Item>
                                     </LinkContainer>
 
                                     <LinkContainer to="/">
-                                        <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={logoutHandler}>
+                                            {Translation.t(context.lang, "logout")}
+                                        </NavDropdown.Item>
                                     </LinkContainer>
                                 </NavDropdown>
                             ) : (
                                 <LinkContainer to="/login">
                                     <Nav.Link>
-                                        <i className="fas fa-user"></i> Login
+                                        <i className="fas fa-user"></i> {Translation.t(context.lang, "login")}
                                     </Nav.Link>
                                 </LinkContainer>
                             )}
@@ -85,15 +89,21 @@ const Header = () => {
                             {userInfo && userInfo.isAdmin && (
                                 <NavDropdown title="Admin" id="adminmenu">
                                     <LinkContainer to="/admin/userlist/">
-                                        <NavDropdown.Item>Users</NavDropdown.Item>
+                                        <NavDropdown.Item>
+                                            {Translation.t(context.lang, "users")}
+                                        </NavDropdown.Item>
                                     </LinkContainer>
 
                                     <LinkContainer to="/admin/productlist/">
-                                        <NavDropdown.Item>Products</NavDropdown.Item>
+                                        <NavDropdown.Item>
+                                            {Translation.t(context.lang, "products")}
+                                        </NavDropdown.Item>
                                     </LinkContainer>
 
                                     <LinkContainer to="/admin/orderlist/">
-                                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                                        <NavDropdown.Item>
+                                            {Translation.t(context.lang, "orders")}
+                                        </NavDropdown.Item>
                                     </LinkContainer>
                                 </NavDropdown>
                             )}

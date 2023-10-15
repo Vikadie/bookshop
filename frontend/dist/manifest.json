@@ -1,13 +1,13 @@
 {
   "index.css": {
-    "file": "static/index-f4056dcb.css",
+    "file": "static/index-67359354.css",
     "src": "index.css"
   },
   "index.html": {
     "css": [
-      "static/index-f4056dcb.css"
+      "static/index-67359354.css"
     ],
-    "file": "static/index-a8df3d88.js",
+    "file": "static/index-5dc0ec1a.js",
     "isEntry": true,
     "src": "index.html"
   }

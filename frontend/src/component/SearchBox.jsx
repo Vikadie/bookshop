@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import Translation from "../utils/Translation";
+import CTX from "../utils/context";
 
 const SearchBox = ({ className }) => {
+    const { context } = useContext(CTX);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -29,7 +32,7 @@ const SearchBox = ({ className }) => {
                 </Col>
                 <Col xs="auto">
                     <Button type="submit" variant="outline-success">
-                        Search
+                        {Translation.t(context.lang, "search")}
                     </Button>
                 </Col>
             </Row>

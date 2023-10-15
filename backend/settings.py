@@ -262,9 +262,9 @@ STORAGES = {
     },
     "staticfiles": {
         # general static folder storage - NB! - uncomment when using 'collectstatic'
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        # "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         # staticfolder storage useing whitenoise - NB! - comment when using 'collectstatic'
-        # "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         "OPTIONS": {},
     },
 }
