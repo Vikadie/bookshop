@@ -6,7 +6,7 @@ import Translation from "../utils/Translation";
 const Footer = () => {
     const [show, setShow] = useState("");
     const { context } = useContext(CTX);
-    console.log(window.location);
+
     useEffect(() => {
         if (show) {
             const link = document.createElement("a");

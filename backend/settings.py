@@ -298,6 +298,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://16.170.82.213:8000"
 ]
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
+
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

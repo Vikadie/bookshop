@@ -20,6 +20,7 @@ import CTX from "../utils/context";
 import SalesTerms from "../component/SalesTerms";
 import PrivacyPolicy from "../component/PrivacyPolicy";
 import GeneralTerms from "../component/GeneralTerms";
+import UnsubscribeScreen from "../screens/UnsubscribeScreen";
 
 const Router = () => {
     const { context, setContext } = useContext(CTX);
@@ -49,6 +50,8 @@ const Router = () => {
             <Route path="/sales_terms" element={<SalesTerms />} />
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/confirmation/:key" element={<ConfirmationScreen />} />
+            <Route path="/unsubscribe" element={<UnsubscribeScreen />} />
+            <Route path="/unsubscribe/:email" element={<UnsubscribeScreen />} />
 
             <Route path="/admin/userlist" element={<UserListScreen />} />
             <Route path="/admin/user/:userId/edit" element={<UserEditScreen />} />

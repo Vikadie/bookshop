@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Badge, Button, ButtonGroup, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { Badge, Button, ButtonGroup, Col, Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../store/actions/userActions";
@@ -40,7 +40,7 @@ const Header = () => {
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <SearchBox className="col-7" />
+                        <SearchBox className="col-6" />
                         <Nav className="ml-auto">
                             <LinkContainer to="/cart">
                                 <Nav.Link>
@@ -108,16 +108,18 @@ const Header = () => {
                                 </NavDropdown>
                             )}
                         </Nav>
+                        <Col xs={1}>
+                            <ButtonGroup variant="dark" size="sm" aria-label="outlined dark button group">
+                                {Translation.getLangs()
+                                    .filter((x) => x.id !== context.lang)
+                                    .map((x) => (
+                                        <Button key={x.id} onClick={() => changeLang(x.id)}>
+                                            {x.id}
+                                        </Button>
+                                    ))}
+                            </ButtonGroup>
+                        </Col>
                     </Navbar.Collapse>
-                    <ButtonGroup variant="dark" size="sm" aria-label="outlined dark button group">
-                        {Translation.getLangs()
-                            .filter((x) => x.id !== context.lang)
-                            .map((x) => (
-                                <Button key={x.id} onClick={() => changeLang(x.id)}>
-                                    {x.id}
-                                </Button>
-                            ))}
-                    </ButtonGroup>
                 </Container>
             </Navbar>
         </header>

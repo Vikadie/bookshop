@@ -95,7 +95,7 @@ const LoginScreen = () => {
                 <Row>
                     <Col align="center">
                         <FacebookButton
-                            scope="email"
+                            scope="public_profile,email"
                             onError={(err) => {
                                 console.log("Login Failed with error: ", error);
                             }}
