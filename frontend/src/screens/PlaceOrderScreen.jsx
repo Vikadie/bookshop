@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutSteps from "../component/CheckoutSteps";
 import { Alert, Button, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { createOrder, resetOrder } from "../store/actions/orderActions";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const PlaceOrderScreen = () => {
+    const { context } = useContext(CTX);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -56,10 +59,10 @@ const PlaceOrderScreen = () => {
                 <Col md={8}>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            <h2>Shipping</h2>
+                            <h2>{Translation.t(context.lang, "shipping")}</h2>
 
                             <p>
-                                <strong>Shipping: </strong>
+                                <strong>{Translation.t(context.lang, "shipping_to")}: </strong>
                                 {cart.shippingAddress.address}, {cart.shippingAddress.city}
                                 {"  "}
                                 {cart.shippingAddress.postalCode},{"  "}
@@ -68,19 +71,22 @@ const PlaceOrderScreen = () => {
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Payment method</h2>
+                            <h2>{Translation.t(context.lang, "payment_method")}</h2>
 
                             <p>
-                                <strong>Method: </strong>
+                                <strong>{Translation.t(context.lang, "p_method")}: </strong>
                                 {cart.paymentMethod}
                             </p>
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Ordered Items</h2>
+                            <h2>{Translation.t(context.lang, "order_items")}</h2>
 
                             {cart.cartItems.length === 0 ? (
-                                <Alert variant="info">You cart is empty {<Link to="/">Go Back</Link>}</Alert>
+                                <Alert variant="info">
+                                    {Translation.t(context.lang, "empty_cart")}{" "}
+                                    {<Link to="/">{Translation.t(context.lang, "go_back")}</Link>}
+                                </Alert>
                             ) : (
                                 <ListGroup variant="flush">
                                     {cart.cartItems.map((item, index) => (
@@ -94,8 +100,10 @@ const PlaceOrderScreen = () => {
                                                 </Col>
 
                                                 <Col md={4}>
-                                                    {item.qty} x {item.price} BGN ={" "}
-                                                    {(+item.qty * +item.price).toFixed(2)} BGN
+                                                    {item.qty} x {item.price}{" "}
+                                                    {Translation.t(context.lang, "bgn")} ={" "}
+                                                    {(+item.qty * +item.price).toFixed(2)}{" "}
+                                                    {Translation.t(context.lang, "bgn")}
                                                 </Col>
                                             </Row>
                                         </ListGroup.Item>
@@ -108,32 +116,40 @@ const PlaceOrderScreen = () => {
                 <Col md={4}>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            <h2>Order Summary</h2>
+                            <h2>{Translation.t(context.lang, "order_summary")}</h2>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
-                                <Col>Items: </Col>
-                                <Col>{itemsPrice.toFixed(2)} BGN</Col>
+                                <Col>{Translation.t(context.lang, "Items")}: </Col>
+                                <Col>
+                                    {itemsPrice.toFixed(2)} {Translation.t(context.lang, "bgn")}
+                                </Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
-                                <Col>Shipping: </Col>
-                                <Col>{shippingPrice.toFixed(2)} BGN</Col>
+                                <Col>{Translation.t(context.lang, "shipping")}: </Col>
+                                <Col>
+                                    {shippingPrice.toFixed(2)} {Translation.t(context.lang, "bgn")}
+                                </Col>
                             </Row>
                         </ListGroup.Item>
 
                         <ListGroup.Item>
                             <Row>
-                                <Col>Tax (+6% for PayPal): </Col>
-                                <Col>{taxPrice.toFixed(2)} BGN</Col>
+                                <Col>{Translation.t(context.lang, "taxPayPal")}: </Col>
+                                <Col>
+                                    {taxPrice.toFixed(2)} {Translation.t(context.lang, "bgn")}
+                                </Col>
                             </Row>
                         </ListGroup.Item>
 
                         <ListGroup.Item>
                             <Row>
                                 <Col>Total: </Col>
-                                <Col>{totalPrice.toFixed(2)} BGN</Col>
+                                <Col>
+                                    {totalPrice.toFixed(2)} {Translation.t(context.lang, "bgn")}
+                                </Col>
                             </Row>
                         </ListGroup.Item>
 
@@ -149,7 +165,7 @@ const PlaceOrderScreen = () => {
                                 onClick={placeOrder}
                                 style={{ width: "100%" }}
                             >
-                                Place Order
+                                {Translation.t(context.lang, "place_order")}
                             </Button>
                         </ListGroup.Item>
                     </ListGroup>

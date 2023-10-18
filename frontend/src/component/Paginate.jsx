@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Col, FormControl, Pagination, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const Paginate = ({ pages, page, perPage, keyword = "", isAdmin = false }) => {
+    const { context } = useContext(CTX);
     const navigate = useNavigate();
 
     if (keyword) {
@@ -54,7 +57,8 @@ const Paginate = ({ pages, page, perPage, keyword = "", isAdmin = false }) => {
                 >
                     {[4, 5, 10, 20, 100].map((x) => (
                         <option key={x} value={x}>
-                            show {x} per page
+                            {Translation.t(context.lang, "show")} {x}{" "}
+                            {Translation.t(context.lang, "per_page")}
                         </option>
                     ))}
                 </FormControl>

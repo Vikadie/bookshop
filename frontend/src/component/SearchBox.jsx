@@ -21,8 +21,8 @@ const SearchBox = ({ className }) => {
     };
     return (
         <Form className={className} onSubmit={submitHandler}>
-            <Row className="align-items-center">
-                <Col xs={8}>
+            <Row className="align-items-center justify-content-center">
+                <Col xs={12} sm={10} lg={8}>
                     <Form.Control
                         type="text"
                         name="q"

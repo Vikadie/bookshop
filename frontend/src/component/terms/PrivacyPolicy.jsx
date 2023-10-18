@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import CTX from "../utils/context";
+import CTX from "../../utils/context";
 
 const PrivacyPolicy = () => {
     const { context } = useContext(CTX);

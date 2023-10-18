@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loginConfirmed } from "../store/actions/userActions";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 function ConfirmationScreen() {
     const { key } = useParams();
+    const { context } = useContext(CTX);
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -26,7 +29,7 @@ function ConfirmationScreen() {
     }, [navigate, userInfo, redirect]);
     return (
         <>
-            <h1>Redirecting...</h1>
+            <h1>{Translation.t(context.lang, "redirecting")}</h1>
             {error && <Alert variant="danger">{error}</Alert>}
             {loading && <Loader />}
         </>

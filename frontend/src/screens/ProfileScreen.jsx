@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Col, Form, Row, Table } from "react-bootstrap";
@@ -7,8 +7,12 @@ import { getUserDetails, updateUserProfile } from "../store/actions/userActions"
 import { updateUserActions } from "../store/reducers/userReducer";
 import { getMyOrders } from "../store/actions/orderActions";
 import Loader from "../component/Loader";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const ProfileScreen = () => {
+    const { context } = useContext(CTX);
+
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -55,7 +59,7 @@ const ProfileScreen = () => {
         e.preventDefault();
 
         if (password != confirmPassword) {
-            setErrorMessage("Passwords do not match");
+            setErrorMessage(Translation.t(context.lang, "password_nomatch"));
             document.getElementById("confirmPassword").focus();
             return;
         }
@@ -72,18 +76,18 @@ const ProfileScreen = () => {
     return (
         <Row>
             <Col md={3}>
-                <h2>User Profile</h2>
+                <h2>{Translation.t(context.lang, "user_profile")}</h2>
                 {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                 {error && <Alert variant="danger">{error}</Alert>}
-                {success && <Alert variant="success">Success</Alert>}
+                {success && <Alert variant="success">{Translation.t(context.lang, "success")}</Alert>}
                 {loading && <Loader />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId="name" className="mb-3">
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "name")}</Form.Label>
                         <Form.Control
                             required
                             type="name"
-                            placeholder="Enter your name"
+                            placeholder={Translation.t(context.lang, "e_name")}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             autoComplete="new-name"
@@ -91,11 +95,11 @@ const ProfileScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId="lastName" className="mb-3">
-                        <Form.Label>Last Name</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "last_name")}</Form.Label>
                         <Form.Control
                             required
                             type="name"
-                            placeholder="Enter your family name"
+                            placeholder={Translation.t(context.lang, "e_last_name")}
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             autoComplete="new-name"
@@ -103,11 +107,11 @@ const ProfileScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId="email" className="mb-3">
-                        <Form.Label>Email Address</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "email")}</Form.Label>
                         <Form.Control
                             required
                             type="email"
-                            placeholder="Enter email"
+                            placeholder={Translation.t(context.lang, "e_email")}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="new-email"
@@ -115,10 +119,10 @@ const ProfileScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId="password" className="mb-3">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "password")}</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="Enter password"
+                            placeholder={Translation.t(context.lang, "e_password")}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="new-password"
@@ -126,10 +130,10 @@ const ProfileScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId="confirmPassword" className="mb-3">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "password")}</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="Confirm password"
+                            placeholder={Translation.t(context.lang, "ec_password")}
                             value={confirmPassword}
                             onChange={(e) => {
                                 setConfirmPassword(e.target.value);
@@ -142,14 +146,14 @@ const ProfileScreen = () => {
 
                     <Col align="center">
                         <Button type="submit" variant="primary">
-                            Update
+                            {Translation.t(context.lang, "update")}
                         </Button>
                     </Col>
                 </Form>
             </Col>
 
             <Col md={9}>
-                <h2>My Orders</h2>
+                <h2>{Translation.t(context.lang, "my_orders")}</h2>
                 {myOrdersLoading ? (
                     <Loader />
                 ) : myOrdersError ? (
@@ -158,11 +162,11 @@ const ProfileScreen = () => {
                     <Table striped responsive className="table-sm">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Date</th>
-                                <th>Total</th>
-                                <th>Paid</th>
-                                <th>Delivered</th>
+                                <th>{Translation.t(context.lang, "id")}</th>
+                                <th>{Translation.t(context.lang, "date")}</th>
+                                <th>{Translation.t(context.lang, "total")}</th>
+                                <th>{Translation.t(context.lang, "paid")}</th>
+                                <th>{Translation.t(context.lang, "delivered")}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -170,11 +174,23 @@ const ProfileScreen = () => {
                             {[...orders].reverse().map((order) => (
                                 <tr key={order._id}>
                                     <td>{order._id}</td>
-                                    <td>{new Date(order.createdAt).toDateString()}</td>
-                                    <td>{order.totalPrice} BGN</td>
+                                    <td>
+                                        {new Date(order.createdAt).toLocaleDateString(
+                                            context.lang === "bg" ? "bg-BG" : "en-us",
+                                            {
+                                                weekday: "short",
+                                                year: "numeric",
+                                                month: "short",
+                                                day: "numeric",
+                                            }
+                                        )}
+                                    </td>
+                                    <td>
+                                        {order.totalPrice} {Translation.t(context.lang, "bgn")}
+                                    </td>
                                     <td>
                                         {order.isPaid ? (
-                                            new Date(order.paidAt).toDateString()
+                                            new Date(order.paidAt).toLocalDateString()
                                         ) : (
                                             <i className="fas fa-times" style={{ color: "red" }}></i>
                                         )}
@@ -188,7 +204,9 @@ const ProfileScreen = () => {
                                     </td>
                                     <td>
                                         <LinkContainer to={`/order/${order._id}`}>
-                                            <Button className="btn-sm">Details</Button>
+                                            <Button className="btn-sm">
+                                                {Translation.t(context.lang, "details")}
+                                            </Button>
                                         </LinkContainer>
                                     </td>
                                 </tr>

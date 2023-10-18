@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getOrderDetails, payOrder, deliverOrder } from "../store/actions/orderActions";
@@ -6,7 +6,8 @@ import { Alert, Button, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { orderPayActions, orderDeliveredActions } from "../store/reducers/orderReducer";
 import Loader from "../component/Loader";
 import { PayPalButton } from "react-paypal-button-v2";
-import axios from "axios";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 // import PayPalCheckout from "../component/paypal/PayPalCheckout";
 
@@ -14,6 +15,8 @@ import axios from "axios";
 const payPalClientID = "AR0ptPpzaDy8H3c5I_wUNkJxnTujp_jkJaOq5UcdpLczTgLG9zEp-k5gqjKNDZE2GsAjO6n7T_kiTKfa";
 
 const OrderScreen = () => {
+    const { context } = useContext(CTX);
+
     const { id: orderId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -83,23 +86,25 @@ const OrderScreen = () => {
     ) : (
         order._id && (
             <div>
-                <h1>Order: {order._id}</h1>
+                <h1>
+                    {Translation.t(context.lang, "order")}: {order._id}
+                </h1>
                 <Row>
                     <Col md={8}>
                         <ListGroup variant="flush">
                             <ListGroup.Item>
-                                <h2>Shipping</h2>
+                                <h2>{Translation.t(context.lang, "shipping")}:</h2>
 
                                 <p>
-                                    <strong>Name: </strong> {order.user.name}
+                                    <strong>{Translation.t(context.lang, "name")}: </strong> {order.user.name}
                                 </p>
                                 <p>
-                                    <strong>Email: </strong>{" "}
+                                    <strong>{Translation.t(context.lang, "email")}: </strong>{" "}
                                     <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
                                 </p>
 
                                 <p>
-                                    <strong>Shipping: </strong>
+                                    <strong>{Translation.t(context.lang, "shipping_to")}: </strong>
                                     {order.shippingAddress.address}, {order.shippingAddress.city}
                                     {"  "}
                                     {order.shippingAddress.postalCode},{"  "}
@@ -108,7 +113,7 @@ const OrderScreen = () => {
 
                                 {order.isDelivered ? (
                                     <Alert variant="success">
-                                        Delivered on{" "}
+                                        {Translation.t(context.lang, "delivered_on")}{" "}
                                         {new Date(order.deliveredAt).toLocaleDateString("en-us", {
                                             weekday: "long",
                                             year: "numeric",
@@ -117,21 +122,23 @@ const OrderScreen = () => {
                                         })}
                                     </Alert>
                                 ) : (
-                                    <Alert variant="warning">Not delivered yet</Alert>
+                                    <Alert variant="warning">
+                                        {Translation.t(context.lang, "not_delivered")}
+                                    </Alert>
                                 )}
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                                <h2>Payment method</h2>
+                                <h2>{Translation.t(context.lang, "payment_method")}</h2>
 
                                 <p>
-                                    <strong>Method: </strong>
-                                    {order.paymentMethod}
+                                    <strong>{Translation.t(context.lang, "p_method")}: </strong>
+                                    {Translation.t(context.lang, order.paymentMethod)}
                                 </p>
 
                                 {order.isPaid ? (
                                     <Alert variant="success">
-                                        Paid on{" "}
+                                        {Translation.t(context.lang, "paid_on")}{" "}
                                         {new Date(order.paidAt).toLocaleDateString("en-us", {
                                             weekday: "long",
                                             year: "numeric",
@@ -140,15 +147,18 @@ const OrderScreen = () => {
                                         })}
                                     </Alert>
                                 ) : (
-                                    <Alert variant="warning">Paiement not received</Alert>
+                                    <Alert variant="warning">{Translation.t(context.lang, "not_paid")}</Alert>
                                 )}
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                                <h2>Order Items</h2>
+                                <h2>{Translation.t(context.lang, "order_items")}</h2>
 
                                 {order.orderItems.length === 0 ? (
-                                    <Alert variant="info">Order is empty {<Link to="/">Go Back</Link>}</Alert>
+                                    <Alert variant="info">
+                                        {Translation.t(context.lang, "empty_order")}{" "}
+                                        {<Link to="/">{Translation.t(context.lang, "go_back")}</Link>}
+                                    </Alert>
                                 ) : (
                                     <ListGroup variant="flush">
                                         {order.orderItems.map((item, index) => (
@@ -169,8 +179,10 @@ const OrderScreen = () => {
                                                     </Col>
 
                                                     <Col md={4}>
-                                                        {item.qty} x {item.price} BGN ={" "}
-                                                        {(+item.qty * +item.price).toFixed(2)} BGN
+                                                        {item.qty} x {item.price}{" "}
+                                                        {Translation.t(context.lang, "bgn")} ={" "}
+                                                        {(+item.qty * +item.price).toFixed(2)}{" "}
+                                                        {Translation.t(context.lang, "bgn")}
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
@@ -183,32 +195,41 @@ const OrderScreen = () => {
                     <Col md={4}>
                         <ListGroup variant="flush">
                             <ListGroup.Item>
-                                <h2>Order Summary</h2>
+                                <h2>{Translation.t(context.lang, "order_summary")}</h2>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Items: </Col>
-                                    <Col>{itemsPrice && itemsPrice.toFixed(2)} BGN</Col>
+                                    <Col>{Translation.t(context.lang, "Items")}: </Col>
+                                    <Col>
+                                        {itemsPrice && itemsPrice.toFixed(2)}{" "}
+                                        {Translation.t(context.lang, "bgn")}
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Shipping: </Col>
-                                    <Col>{order?.shippingPrice} BGN</Col>
+                                    <Col>{Translation.t(context.lang, "shipping")}: </Col>
+                                    <Col>
+                                        {order?.shippingPrice} {Translation.t(context.lang, "bgn")}
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Tax (incl. above): </Col>
-                                    <Col>{order?.taxPrice} BGN</Col>
+                                    <Col>{Translation.t(context.lang, "tax")}: </Col>
+                                    <Col>
+                                        {order?.taxPrice} {Translation.t(context.lang, "bgn")}
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Total: </Col>
-                                    <Col>{order?.totalPrice} BGN</Col>
+                                    <Col>{Translation.t(context.lang, "total")}: </Col>
+                                    <Col>
+                                        {order?.totalPrice} {Translation.t(context.lang, "bgn")}
+                                    </Col>
                                 </Row>
                             </ListGroup.Item>
 
@@ -238,7 +259,7 @@ const OrderScreen = () => {
                                                 style={{ width: "100%" }}
                                                 onClick={() => successPaymentHandler(true)}
                                             >
-                                                Mark as Paid
+                                                {Translation.t(context.lang, "mark_paid")}
                                             </Button>
                                         )}
                                 </ListGroup.Item>
@@ -253,7 +274,7 @@ const OrderScreen = () => {
                                         onClick={deliverHandler}
                                         disabled={order.isDelivered}
                                     >
-                                        Mark asDelivered
+                                        {Translation.t(context.lang, "mark_delivered")}
                                     </Button>
                                 </ListGroup.Item>
                             )}

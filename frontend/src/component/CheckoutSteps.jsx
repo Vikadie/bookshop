@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ProgressBar } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
+    const { context } = useContext(CTX);
     const navigate = useNavigate();
     return (
         <ProgressBar className="justify-content-center mb-4" style={{ height: "2rem", fontSize: "1rem" }}>
@@ -14,7 +17,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
                 onClick={() => (step1 ? navigate("/login") : null)}
                 onMouseEnter={() => (step1 ? (document.body.style.cursor = "pointer") : null)}
                 onMouseLeave={() => (document.body.style.cursor = "auto")}
-                label="Login ->"
+                label={Translation.t(context.lang, "login") + " ->"}
             />
             <ProgressBar now={1} variant="dark" />
             <ProgressBar
@@ -25,7 +28,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
                 onClick={() => (step2 ? navigate("/shipping") : null)}
                 onMouseEnter={() => (step2 ? (document.body.style.cursor = "pointer") : null)}
                 onMouseLeave={() => (document.body.style.cursor = "auto")}
-                label="Shipping ->"
+                label={Translation.t(context.lang, "shipping") + " ->"}
             />
             <ProgressBar now={1} variant="dark" />
             <ProgressBar
@@ -36,7 +39,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
                 onClick={() => (step3 ? navigate("/payment") : null)}
                 onMouseEnter={() => (step3 ? (document.body.style.cursor = "pointer") : null)}
                 onMouseLeave={() => (document.body.style.cursor = "auto")}
-                label="Payment ->"
+                label={Translation.t(context.lang, "payment") + " ->"}
             />
             <ProgressBar now={1} variant="dark" />
             <ProgressBar
@@ -47,7 +50,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
                 onClick={() => (step4 ? navigate("/placeorder") : null)}
                 onMouseEnter={() => (step4 ? (document.body.style.cursor = "pointer") : null)}
                 onMouseLeave={() => (document.body.style.cursor = "auto")}
-                label="Place Order"
+                label={Translation.t(context.lang, "place_order") + " ->"}
             />
         </ProgressBar>
     );

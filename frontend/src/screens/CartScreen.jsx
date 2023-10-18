@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { addToCart, removeFromCart } from "../store/actions/cartActions";
 import { Alert, ListGroup, Row, Col, Image, Form, Button } from "react-bootstrap";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const CartScreen = () => {
+    const { context } = useContext(CTX);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -29,10 +32,11 @@ const CartScreen = () => {
     return (
         <Row>
             <Col md={8}>
-                <h1>Shopping Cart</h1>
+                <h1>{Translation.t(context.lang, "shopping_cart")}</h1>
                 {cartItems.length === 0 ? (
                     <Alert variant="info">
-                        Your cart is empty <Link to="/">Go Back</Link>
+                        {Translation.t(context.lang, "empty_cart")}{" "}
+                        <Link to="/">{Translation.t(context.lang, "go_back")}</Link>
                     </Alert>
                 ) : (
                     <ListGroup variant="flush">
@@ -45,7 +49,9 @@ const CartScreen = () => {
                                     <Col md={3}>
                                         <Link to={`/product/${item.product}`}>{item.name}</Link>
                                     </Col>
-                                    <Col md={2}>{item.price} BGN</Col>
+                                    <Col md={2}>
+                                        {item.price} {Translation.t(context.lang, "bgn")}
+                                    </Col>
                                     <Col md={3}>
                                         <Form.Control
                                             as="select"
@@ -79,8 +85,13 @@ const CartScreen = () => {
             <Col md={4}>
                 <ListGroup variant="flush">
                     <ListGroup.Item>
-                        <h2>Subtotal ({cartItems.reduce((acc, item) => acc + +item.qty, 0)}) items</h2>
-                        {cartItems.reduce((acc, item) => acc + +item.qty * +item.price, 0).toFixed(2)} BGN
+                        <h2>
+                            {Translation.t(context.lang, "subtotal")} (
+                            {cartItems.reduce((acc, item) => acc + +item.qty, 0)}){" "}
+                            {Translation.t(context.lang, "items")}
+                        </h2>
+                        {cartItems.reduce((acc, item) => acc + +item.qty * +item.price, 0).toFixed(2)}{" "}
+                        {Translation.t(context.lang, "bgn")}
                     </ListGroup.Item>
 
                     <ListGroup.Item>
@@ -91,7 +102,7 @@ const CartScreen = () => {
                             disabled={cartItems.length === 0}
                             onClick={checkoutHandler}
                         >
-                            Proceed to checkout
+                            {Translation.t(context.lang, "to_checkout")}
                         </Button>
                     </ListGroup.Item>
                     <ListGroup.Item>
@@ -101,7 +112,7 @@ const CartScreen = () => {
                             style={{ width: "100%" }}
                             onClick={() => navigate("/")}
                         >
-                            Continue browsing
+                            {Translation.t(context.lang, "go_browsing")}
                         </Button>
                     </ListGroup.Item>
                 </ListGroup>

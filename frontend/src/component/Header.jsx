@@ -35,32 +35,33 @@ const Header = () => {
                 collapseOnSelect
             >
                 <Container>
-                    <LinkContainer to="/">
+                    <LinkContainer to="/" style={{ textWrap: "wrap" }}>
                         <Navbar.Brand>{Translation.t(context.lang, "book_shop")}</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <SearchBox className="col-6" />
-                        <Nav className="ml-auto">
+                        <SearchBox className="col-12 col-lg-6" />
+                        <Nav className="col align-items-center">
                             <LinkContainer to="/cart">
                                 <Nav.Link>
-                                    <i className="fas fa-shopping-cart"></i>
-                                    {qty > 0 ? (
-                                        <Badge
-                                            pill
-                                            bg="light"
-                                            as="span"
-                                            text="danger"
-                                            style={{
-                                                position: "relative",
-                                                top: "-9px",
-                                                left: "-3px",
-                                                padding: "0.1rem 0.25rem",
-                                            }}
-                                        >
-                                            {qty}
-                                        </Badge>
-                                    ) : null}
+                                    <i className="fas fa-shopping-cart pe-1">
+                                        {qty > 0 ? (
+                                            <Badge
+                                                pill
+                                                bg="light"
+                                                as="span"
+                                                text="danger"
+                                                style={{
+                                                    position: "relative",
+                                                    top: "-9px",
+                                                    left: "-1px",
+                                                    padding: "0.1rem 0.25rem",
+                                                }}
+                                            >
+                                                {qty}
+                                            </Badge>
+                                        ) : null}
+                                    </i>
                                     {Translation.t(context.lang, "cart")}
                                 </Nav.Link>
                             </LinkContainer>

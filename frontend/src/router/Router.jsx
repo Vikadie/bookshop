@@ -17,9 +17,9 @@ import ProductEditScreen from "../screens/ProductEditScreen";
 import OrderListScreen from "../screens/OrderListScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import CTX from "../utils/context";
-import SalesTerms from "../component/SalesTerms";
-import PrivacyPolicy from "../component/PrivacyPolicy";
-import GeneralTerms from "../component/GeneralTerms";
+import SalesTerms from "../component/terms/SalesTerms";
+import PrivacyPolicy from "../component/terms/PrivacyPolicy";
+import GeneralTerms from "../component/terms/GeneralTerms";
 import UnsubscribeScreen from "../screens/UnsubscribeScreen";
 
 const Router = () => {

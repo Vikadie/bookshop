@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Row, Col, Alert } from "react-bootstrap";
 import Product from "../component/Product";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,8 +7,11 @@ import Loader from "../component/Loader";
 import { useLocation } from "react-router-dom";
 import Paginate from "../component/Paginate";
 import ProductCarousel from "../component/ProductCarousel";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const HomeScreen = () => {
+    const { context } = useContext(CTX);
     const location = useLocation();
     let keyword = location.search;
 
@@ -23,7 +26,7 @@ const HomeScreen = () => {
     return (
         <div>
             {!keyword && <ProductCarousel />}
-            <h1>Latest Products</h1>
+            <h1>{Translation.t(context.lang, "latest_products")}</h1>
             {loading ? (
                 <Loader />
             ) : error ? (

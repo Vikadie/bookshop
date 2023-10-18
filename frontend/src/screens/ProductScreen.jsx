@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Alert, Button, Col, Image, ListGroup, Row, Form } from "react-bootstrap";
 import Rating from "../component/Rating";
@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductDetails, createProductReview } from "../store/actions/productDetailActions";
 import { productCreateReviewActions } from "../store/reducers/productDetailReducer";
 import Loader from "../component/Loader";
-import axios from "axios";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const ProductScreen = () => {
+    const { context } = useContext(CTX);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { userInfo } = useSelector((state) => state.userData);
@@ -45,7 +47,7 @@ const ProductScreen = () => {
     return (
         <div>
             <Link to="/" className="btn btn-dark my-3">
-                Go Back
+                {Translation.t(context.lang, "go_back")}
             </Link>
             {loading ? (
                 <Loader />
@@ -66,35 +68,50 @@ const ProductScreen = () => {
                                 <ListGroup.Item>
                                     <Rating
                                         value={product.rating}
-                                        text={`${product.numReviews} reviews`}
+                                        text={`${product.numReviews} ${
+                                            product.numReviews > 1
+                                                ? Translation.t(context.lang, "r_eviews")
+                                                : Translation.t(context.lang, "r_eview")
+                                        }`}
                                         color="#f8e825"
                                     />
                                 </ListGroup.Item>
 
-                                <ListGroup.Item>Price: {product.price} BGN</ListGroup.Item>
-                                <ListGroup.Item>Description: {product.description}</ListGroup.Item>
+                                <ListGroup.Item>
+                                    {Translation.t(context.lang, "price")}: {product.price}{" "}
+                                    {Translation.t(context.lang, "bgn")}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {Translation.t(context.lang, "descr")}: {product.description}
+                                </ListGroup.Item>
                             </ListGroup>
                         </Col>
                         <Col md={3}>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Price:</Col>
+                                        <Col>{Translation.t(context.lang, "price")}:</Col>
                                         <Col>
-                                            <strong>{product.price} BGN</strong>
+                                            <strong>
+                                                {product.price} {Translation.t(context.lang, "bgn")}
+                                            </strong>
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Status:</Col>
-                                        <Col>{product.countInStock > 0 ? "In stock" : "Out of stock"}</Col>
+                                        <Col>{Translation.t(context.lang, "status")}:</Col>
+                                        <Col>
+                                            {product.countInStock > 0
+                                                ? Translation.t(context.lang, "in_stock")
+                                                : Translation.t(context.lang, "oos")}
+                                        </Col>
                                     </Row>
                                 </ListGroup.Item>
                                 {product.countInStock > 0 && (
                                     <ListGroup.Item>
                                         <Row>
-                                            <Col>Qty</Col>
+                                            <Col>{Translation.t(context.lang, "qty")}</Col>
                                             <Col xs="auto" className="my-1">
                                                 <Form.Control
                                                     as="select"
@@ -119,7 +136,7 @@ const ProductScreen = () => {
                                         style={{ width: "100%" }}
                                         disabled={product.countInStock <= 0}
                                     >
-                                        Add to Card
+                                        {Translation.t(context.lang, "add_to_cart")}
                                     </Button>
                                 </ListGroup.Item>
                             </ListGroup>
@@ -127,8 +144,10 @@ const ProductScreen = () => {
                     </Row>
                     <Row className="mt-3">
                         <Col md={6}>
-                            <h4>Reviews</h4>
-                            {product.reviews.length === 0 && <Alert variant="info">No reviews</Alert>}
+                            <h4>{Translation.t(context.lang, "reviews")}</h4>
+                            {product.reviews.length === 0 && (
+                                <Alert variant="info">{Translation.t(context.lang, "no_reviews")}</Alert>
+                            )}
 
                             <ListGroup variant="flush">
                                 {product.reviews.map((review) => (
@@ -136,22 +155,27 @@ const ProductScreen = () => {
                                         <strong>{review.name}</strong>
                                         <Rating value={review.rating} color="#f8e825" />
                                         <p>
-                                            {new Date(review.createdAt).toLocaleDateString("en-us", {
-                                                // weekday: "long",
-                                                year: "numeric",
-                                                month: "long",
-                                                day: "numeric",
-                                            })}
+                                            {new Date(review.createdAt).toLocaleDateString(
+                                                context.lang === "bg" ? "bg-BG" : "en-us",
+                                                {
+                                                    // weekday: "long",
+                                                    year: "numeric",
+                                                    month: "long",
+                                                    day: "numeric",
+                                                }
+                                            )}
                                         </p>
                                         <p>{review.comment}</p>
                                     </ListGroup.Item>
                                 ))}
 
                                 <ListGroup.Item>
-                                    <h4>Write a review:</h4>
+                                    <h4>{Translation.t(context.lang, "write_review")}:</h4>
                                     {loadingProductReview && <Loader />}
                                     {successProductReview && (
-                                        <Alert variant="success">Review submitted</Alert>
+                                        <Alert variant="success">
+                                            {Translation.t(context.lang, "submitted_review")}
+                                        </Alert>
                                     )}
                                     {errorProductReview && (
                                         <Alert variant="danger">{errorProductReview}</Alert>
@@ -159,22 +183,38 @@ const ProductScreen = () => {
                                     {userInfo ? (
                                         <Form onSubmit={submitHandler}>
                                             <Form.Group controlId="rating">
-                                                <Form.Label>Rating</Form.Label>
+                                                <Form.Label>
+                                                    {Translation.t(context.lang, "rating")}
+                                                </Form.Label>
                                                 <Form.Control
                                                     as="select"
                                                     value={rating}
                                                     onChange={(e) => setRating(e.target.value)}
                                                 >
-                                                    <option value="">Select...</option>
-                                                    <option value="1">1 - Poor</option>
-                                                    <option value="2">2 - Fair</option>
-                                                    <option value="3">3 - Good</option>
-                                                    <option value="4">4 - Very Good</option>
-                                                    <option value="5">5 - Excellent</option>
+                                                    <option value="">
+                                                        {Translation.t(context.lang, "selecting")}
+                                                    </option>
+                                                    <option value="1">
+                                                        {Translation.t(context.lang, "note_1")}
+                                                    </option>
+                                                    <option value="2">
+                                                        {Translation.t(context.lang, "note_2")}
+                                                    </option>
+                                                    <option value="3">
+                                                        {Translation.t(context.lang, "note_3")}
+                                                    </option>
+                                                    <option value="4">
+                                                        {Translation.t(context.lang, "note_4")}
+                                                    </option>
+                                                    <option value="5">
+                                                        {Translation.t(context.lang, "note_5")}
+                                                    </option>
                                                 </Form.Control>
                                             </Form.Group>
                                             <Form.Group controlId="comment">
-                                                <Form.Label>Review</Form.Label>
+                                                <Form.Label>
+                                                    {Translation.t(context.lang, "review")}
+                                                </Form.Label>
                                                 <Form.Control
                                                     as="textarea"
                                                     row="5"
@@ -187,12 +227,14 @@ const ProductScreen = () => {
                                                 type="submit"
                                                 variant="primary"
                                             >
-                                                Submit
+                                                {Translation.t(context.lang, "submit")}
                                             </Button>
                                         </Form>
                                     ) : (
                                         <Alert variant="info">
-                                            Please <Link to="/login">login</Link> to write a review
+                                            {Translation.t(context.lang, "please")}{" "}
+                                            <Link to="/login">{Translation.t(context.lang, "log_in")}</Link>{" "}
+                                            {Translation.t(context.lang, "to_write_review")}
                                         </Alert>
                                     )}
                                 </ListGroup.Item>

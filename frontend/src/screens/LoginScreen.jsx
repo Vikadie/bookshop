@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../component/FormContainer";
@@ -7,13 +7,17 @@ import { login, googleLogin, FBLogin } from "../store/actions/userActions";
 import Loader from "../component/Loader";
 import { GoogleLogin } from "@react-oauth/google";
 import { LoginButton as FacebookButton } from "react-facebook";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const { context } = useContext(CTX);
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -35,12 +39,12 @@ const LoginScreen = () => {
     return (
         <div>
             <FormContainer>
-                <h1>Sign In</h1>
+                <h1>{Translation.t(context.lang, "sign_in")}</h1>
                 {error && <Alert variant="danger">{error}</Alert>}
                 {loading && <Loader />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId="email">
-                        <Form.Label>Email Address</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "email")}</Form.Label>
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
@@ -50,7 +54,7 @@ const LoginScreen = () => {
                         ></Form.Control>
                     </Form.Group>
                     <Form.Group controlId="password">
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>{Translation.t(context.lang, "password")}</Form.Label>
                         <Form.Control
                             type="password"
                             placeholder="Enter password"
@@ -69,15 +73,15 @@ const LoginScreen = () => {
 
                 <Row className="py-3">
                     <Col>
-                        New Customer ?{" "}
+                        {Translation.t(context.lang, "new_customer")} ?{" "}
                         <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
-                            Register here
+                            {Translation.t(context.lang, "register")}
                         </Link>{" "}
-                        or sign in via:
+                        {Translation.t(context.lang, "sign_in_via")}:
                     </Col>
                 </Row>
-                <Row className="py-2">
-                    <Col align="center">
+                <Row className="py-2 justify-content-center">
+                    <Col align="center" style={{ maxWidth: "fit-content" }}>
                         <GoogleLogin
                             onSuccess={(credentialResponse) => {
                                 dispatch(googleLogin(credentialResponse));
@@ -107,7 +111,7 @@ const LoginScreen = () => {
                             className="btn-fb"
                         >
                             <i className="fa-brands fa-square-facebook pe-5"></i>
-                            <span className="pe-4">Login via Facebook</span>
+                            <span className="pe-4">{Translation.t(context.lang, "fb_login")}</span>
                         </FacebookButton>
                     </Col>
                 </Row>

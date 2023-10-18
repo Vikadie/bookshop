@@ -7,6 +7,7 @@ import { saveShippingAddress } from "../store/actions/cartActions";
 import CheckoutSteps from "../component/CheckoutSteps";
 import CTX from "../utils/context";
 import GetSpeedyOffices from "../component/GetSpeedyOffices";
+import Translation from "../utils/Translation";
 
 const ShippingScreen = () => {
     const { context } = useContext(CTX);
@@ -27,7 +28,7 @@ const ShippingScreen = () => {
     const [office, setOffice] = useState(shippingAddress.office || "");
 
     const setDetails = (id, name, address, city, postCode) => {
-        setAddress(name + " found_on " + address);
+        setAddress(name + " " + Translation.t(context.lang, "found_on") + " " + address);
         setOffice(id);
         setCity(city);
         setPostalCode(postCode);
@@ -90,12 +91,12 @@ const ShippingScreen = () => {
     return (
         <FormContainer>
             <CheckoutSteps step1 step2 />
-            <h1>Shipping</h1>
+            <h1>{Translation.t(context.lang, "shipping_to")}</h1>
             <Form>
                 <Form.Check
                     inline
                     type="radio"
-                    label="in Bulgaria"
+                    label={Translation.t(context.lang, "in_bg")}
                     id="BG"
                     name="BG"
                     checked={country === "Bulgaria" || country === "България"}
@@ -104,7 +105,7 @@ const ShippingScreen = () => {
                 <Form.Check
                     inline
                     type="radio"
-                    label="outside Bulgaria"
+                    label={Translation.t(context.lang, "abroad")}
                     id="abroad"
                     name="abroad"
                     checked={country !== "Bulgaria" && country !== "България"}
@@ -117,11 +118,11 @@ const ShippingScreen = () => {
             </Form>
             {(country === "Bulgaria" || country === "България") && (
                 <Form>
-                    <Form.Label as="span">to </Form.Label>
+                    <Form.Label as="span">{Translation.t(context.lang, "to")}</Form.Label>
                     <Form.Check
                         inline
                         type="radio"
-                        label="Ekont's office"
+                        label={Translation.t(context.lang, "Ekont")}
                         id="Ekont"
                         name="Ekont"
                         checked={forwarder === "Ekont"}
@@ -130,7 +131,7 @@ const ShippingScreen = () => {
                     <Form.Check
                         inline
                         type="radio"
-                        label="Speedy's office"
+                        label={Translation.t(context.lang, "Speedy")}
                         id="Speedy"
                         name="Speedy"
                         checked={forwarder === "Speedy"}
@@ -139,7 +140,7 @@ const ShippingScreen = () => {
                     <Form.Check
                         inline
                         type="radio"
-                        label="my address"
+                        label={Translation.t(context.lang, "other_address")}
                         id="other"
                         name="other"
                         checked={forwarder === "other"}
@@ -149,7 +150,7 @@ const ShippingScreen = () => {
             )}
             {(country === "Bulgaria" || country === "България") && (
                 <React.Fragment>
-                    {forwarder !== "other" && <p>Select office below:</p>}
+                    {forwarder !== "other" && <p>{Translation.t(context.lang, "select_office")}:</p>}
                     {forwarder === "Ekont" && (
                         <iframe
                             title="Econt Office Locator"
@@ -168,44 +169,44 @@ const ShippingScreen = () => {
             )}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="address" className="mb-3">
-                    <Form.Label>Address</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "address")}</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        placeholder="Enter address"
+                        placeholder={Translation.t(context.lang, "e_address")}
                         value={address ? address : ""}
                         onChange={(e) => setAddress(e.target.value)}
                         autoComplete="new-address"
                     ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="city" className="mb-3">
-                    <Form.Label>City</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "city")}</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        placeholder="Enter city"
+                        placeholder={Translation.t(context.lang, "e_city")}
                         value={city ? city : ""}
                         onChange={(e) => setCity(e.target.value)}
                         autoComplete="new-city"
                     ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="postalCode" className="mb-3">
-                    <Form.Label>Postal Code</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "PO")}</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        placeholder="Enter postalCode"
+                        placeholder={Translation.t(context.lang, "e_PO")}
                         value={postalCode ? postalCode : ""}
                         onChange={(e) => setPostalCode(e.target.value)}
                         autoComplete="new-postal-code"
                     ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="country" className="mb-3">
-                    <Form.Label>Country</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "country")}</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        placeholder="Enter country"
+                        placeholder={Translation.t(context.lang, "e_country")}
                         value={country ? country : ""}
                         onChange={(e) => setCountry(e.target.value)}
                         autoComplete="new-country"
@@ -214,7 +215,7 @@ const ShippingScreen = () => {
 
                 <Col align="center">
                     <Button type="submit" variant="primary">
-                        Continue
+                        {Translation.t(context.lang, "continue")}
                     </Button>
                 </Col>
             </Form>

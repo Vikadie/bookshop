@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import Rating from "./Rating";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const Product = ({ product }) => {
+    const { context } = useContext(CTX);
+
     return (
         <Card className="my-3 p-3 rounded">
             <Link to={`/product/${product._id}`}>
@@ -27,7 +30,9 @@ const Product = ({ product }) => {
                     </div>
                 </Card.Text>
 
-                <Card.Text as="h3">{product.price} BGN</Card.Text>
+                <Card.Text as="h3">
+                    {product.price} {Translation.t(context.lang, "bgn")}
+                </Card.Text>
             </Card.Body>
         </Card>
     );

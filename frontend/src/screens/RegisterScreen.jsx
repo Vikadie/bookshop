@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../component/FormContainer";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { register, clearError } from "../store/actions/userActions";
 import Loader from "../component/Loader";
+import CTX from "../utils/context";
+import Translation from "../utils/Translation";
 
 const RegisterScreen = () => {
+    const { context } = useContext(CTX);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,7 +40,7 @@ const RegisterScreen = () => {
         e.preventDefault();
 
         if (password != confirmPassword) {
-            setErrorMessage("Passwords do not match");
+            setErrorMessage(Translation.t(context.lang, "password_nomatch"));
             document.getElementById("confirmPassword").focus();
             return;
         }
@@ -45,17 +48,17 @@ const RegisterScreen = () => {
     };
     return (
         <FormContainer>
-            <h1>Register</h1>
+            <h1>{Translation.t(context.lang, "register")}</h1>
             {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
             {error && <Alert variant="danger">{error}</Alert>}
             {loading && <Loader />}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="name" className="mb-3">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "name")}</Form.Label>
                     <Form.Control
                         required
                         type="name"
-                        placeholder="Enter your name"
+                        placeholder={Translation.t(context.lang, "e_name")}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         autoComplete="new-name"
@@ -63,11 +66,11 @@ const RegisterScreen = () => {
                 </Form.Group>
 
                 <Form.Group controlId="email" className="mb-3">
-                    <Form.Label>Email Address</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "email")}</Form.Label>
                     <Form.Control
                         required
                         type="email"
-                        placeholder="Enter email"
+                        placeholder={Translation.t(context.lang, "e_email")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         autoComplete="new-email"
@@ -75,11 +78,11 @@ const RegisterScreen = () => {
                 </Form.Group>
 
                 <Form.Group controlId="password" className="mb-3">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "password")}</Form.Label>
                     <Form.Control
                         required
                         type="password"
-                        placeholder="Enter password"
+                        placeholder={Translation.t(context.lang, "e_password")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         autoComplete="new-password"
@@ -87,11 +90,11 @@ const RegisterScreen = () => {
                 </Form.Group>
 
                 <Form.Group controlId="confirmPassword" className="mb-3">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>{Translation.t(context.lang, "password")}</Form.Label>
                     <Form.Control
                         required
                         type="password"
-                        placeholder="Confirm password"
+                        placeholder={Translation.t(context.lang, "ec_password")}
                         value={confirmPassword}
                         onChange={(e) => {
                             setConfirmPassword(e.target.value);
@@ -104,18 +107,18 @@ const RegisterScreen = () => {
 
                 <Col align="center">
                     <Button type="submit" variant="primary">
-                        Register
+                        {Translation.t(context.lang, "register")}
                     </Button>
                 </Col>
             </Form>
             <Row className="py-3">
                 <Col>
-                    Have an Account ?{" "}
+                    {Translation.t(context.lang, "have_account")}{" "}
                     <Link
                         to={redirect ? `/login?redirect=${redirect}` : "/login"}
                         onClick={() => dispatch(clearError())}
                     >
-                        Sign In
+                        {Translation.t(context.lang, "sign_in")}
                     </Link>
                 </Col>
             </Row>
