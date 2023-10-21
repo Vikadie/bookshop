@@ -35,7 +35,11 @@ const Header = () => {
                 collapseOnSelect
             >
                 <Container>
-                    <LinkContainer to="/" style={{ textWrap: "wrap" }}>
+                    <LinkContainer
+                        to="/"
+                        style={{ textWrap: "wrap" }}
+                        title={Translation.t(context.lang, "home")}
+                    >
                         <Navbar.Brand>{Translation.t(context.lang, "book_shop")}</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

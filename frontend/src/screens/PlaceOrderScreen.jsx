@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutSteps from "../component/CheckoutSteps";
-import { Alert, Button, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Alert, Button, Col, Image, ListGroup, Row, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { createOrder, resetOrder } from "../store/actions/orderActions";
 import CTX from "../utils/context";
@@ -12,7 +12,7 @@ const PlaceOrderScreen = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { order, error, success } = useSelector((state) => state.order);
+    const { loading, order, error, success } = useSelector((state) => state.order);
     const cart = useSelector((state) => state.cart);
 
     const itemsPrice = cart.cartItems.reduce((acc, item) => acc + +item.price * +item.qty, 0);
@@ -179,11 +179,15 @@ const PlaceOrderScreen = () => {
                             <Button
                                 type="button"
                                 className="btn-block"
-                                disabled={cart.cartItems.length === 0}
+                                disabled={cart.cartItems.length === 0 || loading}
                                 onClick={placeOrder}
                                 style={{ width: "100%" }}
                             >
-                                {Translation.t(context.lang, "place_order")}
+                                {loading ? (
+                                    <Spinner animation="grow" size="sm" />
+                                ) : (
+                                    Translation.t(context.lang, "place_order")
+                                )}
                             </Button>
                         </ListGroup.Item>
                     </ListGroup>

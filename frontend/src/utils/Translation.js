@@ -14,6 +14,7 @@ const translations = {
     connectionError: { bg: "Възможен проблем с мрежата! ", en: "Connection might have been lost! " },
     remove: { bg: "Изтрий", en: "Remove" },
 
+    home: { bg: "Начало", en: "Home" },
     book_shop: { bg: 'Магазин за книги "Мраволак"', en: 'Book shop "Mravolak"' },
     profile: { bg: "Профил", en: "Profile" },
     logout: { bg: "Изход", en: "Logout" },
