@@ -3,8 +3,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from rest_framework import serializers
 # from django.contrib.auth.models import User
-from .models import Order, OrderItem, Product, ShippingAddress, Review, CustomUser
-import os
+from .models import Order, OrderItem, Product, ShippingAddress, Review, CustomUser, FooterTerms
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -139,3 +138,9 @@ class OrderSerializer(serializers.ModelSerializer):
         user = obj.user
         serializer = UserSerializer(user, many=False)
         return serializer.data
+
+
+class FooterTermsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FooterTerms
+        fields = '__all__'

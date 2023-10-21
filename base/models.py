@@ -79,6 +79,7 @@ class OrderItem(models.Model):
 
 
 class ShippingAddress(models.Model):
+    # phone_regex = RegexValidator(regex=r'^\+?1?\d{8,16}$', message="Phone number must be entered in the format: '+999999999'. Up to 16 digits allowed.")
     # shipping address can only have one order
     order = models.OneToOneField(
         Order, on_delete=models.CASCADE, null=True, blank=True)
@@ -89,8 +90,21 @@ class ShippingAddress(models.Model):
     shippingPrice = models.DecimalField(
         max_digits=7, decimal_places=2, null=True, blank=True)
     forwarder = models.CharField(max_length=10, null=True, blank=True)
+    phone = models.CharField(max_length=17, null=True, blank=True)
+    comments = models.TextField(max_length=2000, null=True, blank=True)
     office = models.CharField(max_length=50, null=True, blank=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self) -> str:
         return str(self.address)
+
+
+class FooterTerms(models.Model):
+    mainKey = models.CharField(max_length=50, unique=True)
+    titleBg = models.CharField(max_length=50, null=True, blank=True)
+    titleEn = models.CharField(max_length=50, null=True, blank=True)
+    htmlBg = models.TextField(null=True, blank=True)
+    htmlEn = models.TextField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return str(self.mainKey)

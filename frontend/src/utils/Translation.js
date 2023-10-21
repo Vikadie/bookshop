@@ -50,11 +50,26 @@ const translations = {
     e_address: { bg: "Напишете адреса", en: "Enter address" },
     city: { bg: "Град", en: "City" },
     e_city: { bg: "Напишете името на града", en: "Enter city" },
+    phone: { bg: "Телефон", en: "Phone" },
+    e_phone: {
+        bg: "Задължително поле - изисква се от куриерската компания за доставката на пратката. Mravolak няма да запазва и използва номера Ви за други цели.",
+        en: "Required field by the forwarding company for the delivery process. Mravolak guarantee we'll never use you phone number for any other purposes.",
+    },
+    wrong_phone: {
+        bg: "Невалиден телефонен номер. Изисква се от куриерската компания. Моля въведете валиден такъв.",
+        en: "Invalid phone number. It's required by the forwarding company. Please enter a valid one.",
+    },
     PO: { bg: "Пощенски код", en: "Postal Code" },
     e_PO: { bg: "Непишете пощенския код", en: "Enter postal code" },
     country: { bg: "Държава", en: "Country" },
     e_country: { bg: "Напишете държавата", en: "Enter country" },
-    found_on: { bg: ", намиращ се на", en: "located at" },
+    country: { bg: "Държава", en: "Country" },
+    ship_comment: { bg: "Допълнителен коментар", en: "Additional comments" },
+    e_ship_comment: {
+        bg: "Напишете допълнителните си коментари към спедитора или към Mravolak, ако имате такива",
+        en: "Write additional comments, if any, towards the forwarder or Mravolak's team",
+    },
+    found_on: { bg: ", намиращ се в", en: "located at" },
     total: { bg: "Общо", en: "Total" },
     subtotal: { bg: "Общо", en: "Subtotal" },
     items: { bg: "артикула", en: "items" },
@@ -95,7 +110,11 @@ const translations = {
     empty_order: { bg: "Празна поръчка", en: "Order is empty" },
     order_summary: { bg: "Резюме на поръчката", en: "Order Summary" },
     tax: { bg: "Доп. такси (вкл. по- горе)", en: "Tax (incl. above)" },
-    taxPayPal: { bg: "Доп. такси (+6% за PayPal)", en: "Tax (+6% for PayPal)" },
+    taxPayPal: { bg: "Доп. такси (+6% PayPal)", en: "Tax (+6% PayPal)" },
+    PayPalExplanationText: {
+        bg: "Вземете в предвид, че се начислява около 6% доп. такса от PayPal върху общата сума",
+        en: "Bear in mind the approx. +6% additional PayPal tax added on top of your order amount",
+    },
     place_order: { bg: "Потвърждение", en: "Place order" },
     price: { bg: "Цена", en: "Price" },
     descr: { bg: "Описание", en: "Description" },
@@ -126,8 +145,6 @@ const translations = {
     last_name: { bg: "Фамилия", en: "Last Name" },
     e_last_name: { bg: "Напишете фамилното си име", en: "Enter your family name" },
     search: { bg: "Търсене", en: "Search" },
-    general_terms: { bg: "Общи Условия", en: "General terms" },
-    privacy_policy: { bg: "Политика за личните данни", en: "Privacy Policy" },
     sales_terms: { bg: "Доставка и плащания", en: "Delivery and payment" },
     free_subdomain: { bg: "домейн е предоставен безплатно от", en: "free subdomain provided by" },
     unsubscribe_sorry: {
@@ -182,6 +199,7 @@ const Translation = () => {
 
         return t;
     };
+
     return {
         getLangs,
         t,

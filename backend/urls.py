@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('real-mravolak-admin/', admin.site.urls),
     # path("api/", include('base.urls')),
 
     # the path for rendering the React project on Django main port 8000
@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/products/', include('base.urls.product_urls')),
     path('api/users/', include('base.urls.user_urls')),
     path('api/orders/', include('base.urls.order_urls')),
+    path('api/footer/', include('base.urls.footer_urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -98,6 +98,7 @@ def addOrderItems(request):
         shippingPrice=data['shippingPrice'],
         totalPrice=data['totalPrice']
     )
+
     # (2) create shipping items
     shipping = ShippingAddress.objects.create(
         order=order,
@@ -107,7 +108,9 @@ def addOrderItems(request):
         country=data['shippingAddress']['country'],
         shippingPrice=data['shippingPrice'],
         office=data['shippingAddress']['office'],
-        forwarder=data['shippingAddress']['forwarder']
+        forwarder=data['shippingAddress']['forwarder'],
+        phone=data["shippingAddress"]["phone"],
+        comments=data["shippingAddress"]["comments"],
     )
     # (3) create order items and set order to orderItem relationship
     for i in orderItems:

@@ -21,7 +21,7 @@ const GeneralTerms = () => {
             scrollable
         >
             <Modal.Header closeButton>
-                <Modal.Title id="delivery">Доставка и плащане</Modal.Title>
+                <Modal.Title id="delivery">Общи условия</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <ol>

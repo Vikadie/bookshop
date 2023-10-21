@@ -63,10 +63,26 @@ const PlaceOrderScreen = () => {
 
                             <p>
                                 <strong>{Translation.t(context.lang, "shipping_to")}: </strong>
-                                {cart.shippingAddress.address}, {cart.shippingAddress.city}
+                            </p>
+                            <p>
+                                {cart.shippingAddress.office && (
+                                    <i className="fa fa-location-dot fa-beat"></i>
+                                )}
+                                {cart.shippingAddress.forwarder !== "other" && cart.shippingAddress.forwarder}{" "}
+                                {cart.shippingAddress.address}
                                 {"  "}
+                            </p>
+                            <p>
+                                <i className="fa fa-map-location-dot"></i> {cart.shippingAddress.city}{" "}
                                 {cart.shippingAddress.postalCode},{"  "}
                                 {cart.shippingAddress.country}
+                            </p>
+                            <hr />
+                            <p>
+                                <i className="fa fa-phone"></i> {cart.shippingAddress.phone}
+                                <br />
+                                {cart.shippingAddress.comments && <i className="fa fa-comments"></i>}{" "}
+                                {cart.shippingAddress.comments}
                             </p>
                         </ListGroup.Item>
 
@@ -135,14 +151,16 @@ const PlaceOrderScreen = () => {
                             </Row>
                         </ListGroup.Item>
 
-                        <ListGroup.Item>
-                            <Row>
-                                <Col>{Translation.t(context.lang, "taxPayPal")}: </Col>
-                                <Col>
-                                    {taxPrice.toFixed(2)} {Translation.t(context.lang, "bgn")}
-                                </Col>
-                            </Row>
-                        </ListGroup.Item>
+                        {taxPrice > 0 && (
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>{Translation.t(context.lang, "taxPayPal")}: </Col>
+                                    <Col>
+                                        {taxPrice.toFixed(2)} {Translation.t(context.lang, "bgn")}
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
+                        )}
 
                         <ListGroup.Item>
                             <Row>

@@ -8,6 +8,8 @@ import CheckoutSteps from "../component/CheckoutSteps";
 import CTX from "../utils/context";
 import GetSpeedyOffices from "../component/GetSpeedyOffices";
 import Translation from "../utils/Translation";
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import GetEkontOffices from "../component/GetEkontOffices";
 
 const ShippingScreen = () => {
     const { context } = useContext(CTX);
@@ -20,6 +22,9 @@ const ShippingScreen = () => {
     const [city, setCity] = useState(shippingAddress.city || "");
     const [postalCode, setPostalCode] = useState(shippingAddress.postalCode || "");
     const [country, setCountry] = useState(shippingAddress.country || "");
+    const [phone, setPhone] = useState(shippingAddress.phone || "");
+    const [phoneErr, setPhoneErr] = useState("");
+    const [comments, setComments] = useState(shippingAddress.comments || "");
 
     const [forwarder, setForwarder] = useState(shippingAddress.forwarder || "");
     const changeForwarder = (e) => {
@@ -34,57 +39,43 @@ const ShippingScreen = () => {
         setPostalCode(postCode);
     };
 
-    const displayMessage = (event) => {
-        if (event.data?.office === undefined) {
-            return;
-        }
-        if (event.origin === `${import.meta.env.VITE_EKONT_OFFICE_LOCATOR}`) {
-            let data = event.data.office;
-            setDetails(
-                data.code,
-                data.name,
-                data.address.fullAddress,
-                data.address.city.name,
-                data.address.city.postCode
-            );
-        }
-        // console.log(JSON.stringify(event.data.office, null, 4));
-    };
-
     const submitHandler = (e) => {
         e.preventDefault();
 
-        dispatch(
-            saveShippingAddress({
-                address,
-                city,
-                postalCode,
-                country,
-                office,
-                forwarder,
-            })
-        );
+        if (!phone) {
+            setPhoneErr("no phone");
+            return;
+        }
 
-        navigate("/payment");
-        console.log("Submitted");
+        if (!phoneErr) {
+            dispatch(
+                saveShippingAddress({
+                    address,
+                    city,
+                    postalCode,
+                    country,
+                    office,
+                    forwarder,
+                    phone,
+                    comments,
+                })
+            );
+
+            navigate("/payment");
+            console.log("Submitted");
+        }
     };
 
-    if (forwarder === "Ekont") {
-        if (window.addEventListener) {
-            window.addEventListener("message", displayMessage);
+    const validatePhone = () => {
+        if (phone && phone.length > 4 && !isValidPhoneNumber(phone)) {
+            setPhoneErr("wrong phone!");
         } else {
-            // for IE8-
-            window.attachEvent("onmessage", displayMessage);
+            setPhoneErr("");
         }
-        window.listener = true;
-    } else {
+    };
+
+    if (forwarder !== "Ekont") {
         if (window.listener) {
-            if (window.addEventListener) {
-                window.removeEventListener("message", displayMessage);
-            } else {
-                // for IE8-
-                window.detachEvent("onmessage", displayMessage);
-            }
             window.listener = undefined;
         }
     }
@@ -118,7 +109,7 @@ const ShippingScreen = () => {
             </Form>
             {(country === "Bulgaria" || country === "България") && (
                 <Form>
-                    <Form.Label as="span">{Translation.t(context.lang, "to")}</Form.Label>
+                    <Form.Label as="span">{Translation.t(context.lang, "to")} </Form.Label>
                     <Form.Check
                         inline
                         type="radio"
@@ -151,19 +142,7 @@ const ShippingScreen = () => {
             {(country === "Bulgaria" || country === "България") && (
                 <React.Fragment>
                     {forwarder !== "other" && <p>{Translation.t(context.lang, "select_office")}:</p>}
-                    {forwarder === "Ekont" && (
-                        <iframe
-                            title="Econt Office Locator"
-                            allow="geolocation;"
-                            src={`${
-                                import.meta.env.VITE_EKONT_OFFICE_LOCATOR
-                            }?shopUrl=https://example.staging.officelocator.econt.com&officeType=office&lang=${
-                                context.lang
-                            }`}
-                            style={{ width: "100%", height: "70vh", borderWidth: "5px" }}
-                            // onMessage={displayMessage}
-                        ></iframe>
-                    )}
+                    {forwarder === "Ekont" && <GetEkontOffices setDetails={setDetails} />}
                     {forwarder === "Speedy" && <GetSpeedyOffices setDetails={setDetails} />}
                 </React.Fragment>
             )}
@@ -190,6 +169,32 @@ const ShippingScreen = () => {
                         autoComplete="new-city"
                     ></Form.Control>
                 </Form.Group>
+                <Form.Group controlId="phone" className="mb-3">
+                    <Form.Label>{Translation.t(context.lang, "phone")}</Form.Label>
+                    <PhoneInput
+                        required
+                        international
+                        countryCallingCodeEditable={false}
+                        defaultCountry="BG"
+                        value={phone}
+                        onChange={(e) => {
+                            setPhone(e);
+                            setPhoneErr("");
+                        }}
+                        onBlur={validatePhone}
+                        aria-describedby="phoneHelpBlock"
+                        style={{ border: `${phoneErr ? "2px dashed #ff00007d" : "none"}` }}
+                    />
+                    {phoneErr ? (
+                        <Form.Text id="phoneHelpBlock" style={{ color: "red" }}>
+                            {Translation.t(context.lang, "wrong_phone")}
+                        </Form.Text>
+                    ) : (
+                        <Form.Text id="phoneHelpBlock" muted>
+                            {Translation.t(context.lang, "e_phone")}
+                        </Form.Text>
+                    )}
+                </Form.Group>
                 <Form.Group controlId="postalCode" className="mb-3">
                     <Form.Label>{Translation.t(context.lang, "PO")}</Form.Label>
                     <Form.Control
@@ -210,6 +215,16 @@ const ShippingScreen = () => {
                         value={country ? country : ""}
                         onChange={(e) => setCountry(e.target.value)}
                         autoComplete="new-country"
+                    ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="comments" className="mb-3">
+                    <Form.Label>{Translation.t(context.lang, "ship_comment")}</Form.Label>
+                    <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder={Translation.t(context.lang, "e_ship_comment")}
+                        value={comments ? comments : ""}
+                        onChange={(e) => setComments(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
 

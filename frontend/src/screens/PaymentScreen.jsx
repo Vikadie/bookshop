@@ -57,7 +57,13 @@ const PaymentScreen = () => {
                             name="PayPal"
                             checked={paymentMethod === "PayPal"}
                             onChange={changePaymentMethod}
+                            aria-describedby="PayPalHelpBlock"
                         ></Form.Check>
+                        {paymentMethod === "PayPal" && (
+                            <Form.Text id="PayPalHelpBlock">
+                                {Translation.t(context.lang, "PayPalExplanationText")}
+                            </Form.Text>
+                        )}
                     </Col>
                 </Form.Group>
 

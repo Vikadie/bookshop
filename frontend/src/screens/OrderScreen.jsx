@@ -64,9 +64,7 @@ const OrderScreen = () => {
         } else if (order.paymentMethod === "PayPal" && !order.isPaid) {
             if (!window.paypal) {
                 addPayPalScript();
-                console.log("addPayPalScript");
             } else {
-                console.log("setSdkReady = true");
                 setSdkReady(true);
             }
         }
@@ -215,14 +213,16 @@ const OrderScreen = () => {
                                 </Row>
                             </ListGroup.Item>
 
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col>{Translation.t(context.lang, "tax")}: </Col>
-                                    <Col>
-                                        {order?.taxPrice} {Translation.t(context.lang, "bgn")}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
+                            {order.paymentMethod === "PayPal" && (
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>{Translation.t(context.lang, "taxPayPal")}: </Col>
+                                        <Col>
+                                            {order?.taxPrice} {Translation.t(context.lang, "bgn")}
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            )}
 
                             <ListGroup.Item>
                                 <Row>

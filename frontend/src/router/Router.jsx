@@ -18,9 +18,9 @@ import OrderListScreen from "../screens/OrderListScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import CTX from "../utils/context";
 import SalesTerms from "../component/terms/SalesTerms";
-import PrivacyPolicy from "../component/terms/PrivacyPolicy";
-import GeneralTerms from "../component/terms/GeneralTerms";
 import UnsubscribeScreen from "../screens/UnsubscribeScreen";
+import TermsPage from "../component/terms/TermsPage";
+import EditTermsPage from "../component/terms/EditTermsPage";
 
 const Router = () => {
     const { context, setContext } = useContext(CTX);
@@ -45,9 +45,8 @@ const Router = () => {
             <Route path="/shipping" element={<ShippingScreen />} />
             <Route path="/payment" element={<PaymentScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/general_terms" element={<GeneralTerms />} />
-            <Route path="/privacy_policy" element={<PrivacyPolicy />} />
-            <Route path="/sales_terms" element={<SalesTerms />} />
+            <Route path="/footer/sales_terms" element={<SalesTerms />} />
+            <Route path="/footer/:mainKey" element={<TermsPage />} />
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/confirmation/:key" element={<ConfirmationScreen />} />
             <Route path="/unsubscribe" element={<UnsubscribeScreen />} />
@@ -58,6 +57,7 @@ const Router = () => {
             <Route path="/admin/productlist" element={<ProductListScreen />} />
             <Route path="/admin/product/:productId/edit" element={<ProductEditScreen />} />
             <Route path="/admin/orderlist" element={<OrderListScreen />} />
+            <Route path="/admin/footer" element={<EditTermsPage />} />
         </Switch>
     );
 };
