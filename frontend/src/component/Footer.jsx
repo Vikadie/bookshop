@@ -58,15 +58,6 @@ const Footer = () => {
                                         </button>
                                     </Col>
                                 ))}
-                            <Col>
-                                <button
-                                    className="px-3"
-                                    style={{ backgroundColor: "transparent", border: "none" }}
-                                    onClick={() => setShow("sales_terms")}
-                                >
-                                    {Translation.t(context.lang, "sales_terms")}
-                                </button>
-                            </Col>
                         </Row>
                     </Col>
                     <Col>

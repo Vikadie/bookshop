@@ -29,15 +29,18 @@ def checkKeyAvailability(request, key):
 
 @api_view(["POST"])
 @permission_classes([IsAdminUser])
-def createTermsByKey(request):
+def createTerm(request):
     data = request.data
-    # (1) Create the order
+
+    if FooterTerms.objects.filter(mainKey=data["mainKey"]):
+        return Response({"detail": "mainKey does exist already"}, status=status.HTTP_400_BAD_REQUEST)
+    # (1) Create the new term
     footerTerm = FooterTerms.objects.create(
-        mainKey=data["key"],
-        titleBg=data["key"]['titleBg'],
-        titleEn=data["key"]['titleEn'],
-        htmlBg=data["key"]['htmlBg'],
-        htmlEn=data["key"]['htmlEn']
+        mainKey=data["mainKey"],
+        titleBg=data['titleBg'],
+        titleEn=data['titleEn'],
+        htmlBg=data['htmlBg'],
+        htmlEn=data['htmlEn']
     )
 
     serializer = FooterTermsSerializer(footerTerm, many=False)
@@ -46,15 +49,26 @@ def createTermsByKey(request):
 
 @api_view(["PUT"])
 @permission_classes([IsAdminUser])
-def updateTermsByKey(request, changedTerm):
+def updateTerm(request):
+    changedTerm = request.data
+
     try:
-        term = FooterTerms.objects.get(mainKey=changedTerm["key"])
-        term.titleBg = changedTerm["key"]['titleBg'],
-        term.titleEn = changedTerm["key"]['titleEn'],
-        term.htmlBg = changedTerm["key"]['htmlBg'],
-        term.htmlEn = changedTerm["key"]['htmlEn']
+        term = FooterTerms.objects.get(id=changedTerm["id"])
+        term.mainKey = changedTerm["mainKey"]
+        term.titleBg = changedTerm['titleBg']
+        term.titleEn = changedTerm['titleEn']
+        term.htmlBg = changedTerm['htmlBg']
+        term.htmlEn = changedTerm['htmlEn']
         term.save()
         serializer = FooterTermsSerializer(term, many=False)
         return Response(serializer.data)
     except:
         return Response({"detail": "mainKey does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def deleteTerm(request, pk):
+    termToDelete = FooterTerms.objects.get(id=pk)
+    termToDelete.delete()
+    return Response({"action": "Term Deleted"})

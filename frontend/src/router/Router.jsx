@@ -17,7 +17,6 @@ import ProductEditScreen from "../screens/ProductEditScreen";
 import OrderListScreen from "../screens/OrderListScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
 import CTX from "../utils/context";
-import SalesTerms from "../component/terms/SalesTerms";
 import UnsubscribeScreen from "../screens/UnsubscribeScreen";
 import TermsPage from "../component/terms/TermsPage";
 import EditTermsPage from "../component/terms/EditTermsPage";
@@ -45,7 +44,6 @@ const Router = () => {
             <Route path="/shipping" element={<ShippingScreen />} />
             <Route path="/payment" element={<PaymentScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
-            <Route path="/footer/sales_terms" element={<SalesTerms />} />
             <Route path="/footer/:mainKey" element={<TermsPage />} />
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/confirmation/:key" element={<ConfirmationScreen />} />

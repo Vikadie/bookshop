@@ -47,7 +47,6 @@ import "tinymce/plugins/wordcount";
 
 // importing plugin resources
 import "tinymce/plugins/emoticons/js/emojis";
-import { Button } from "react-bootstrap";
 
 // Content styles, including inline UI like fake cursors
 /* eslint import/no-webpack-loader-syntax: off */
@@ -76,15 +75,10 @@ export default function TinyEditor({ initValue, saveNewValue }) {
     const editorRef = useRef(null);
     const save = () => {
         if (editorRef.current) {
-            console.log(editorRef.current);
-            console.log(editorRef.current.getContent());
             saveNewValue(editorRef.current.getContent());
         }
     };
 
-    if (editorRef.current) {
-        editorRef.current.startContent = "<p>This is the initial content of the editor.</p>";
-    }
     return (
         <>
             <BundledEditor
@@ -122,8 +116,8 @@ export default function TinyEditor({ initValue, saveNewValue }) {
                     content_style:
                         'body { font-family:Neucha,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; font-size:14px }',
                 }}
+                onBlur={save}
             />
-            <Button onClick={save}>Save editor content</Button>
         </>
     );
 }

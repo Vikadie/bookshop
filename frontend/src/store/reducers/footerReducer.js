@@ -28,3 +28,59 @@ const footerReducer = createSlice({
 
 export const footerActions = footerReducer.actions;
 export default footerReducer.reducer;
+
+const initTermsState = { loading: false, term: {}, success: false, error: null };
+
+const termsReducer = createSlice({
+    name: "termsFooter",
+    initialState: initTermsState,
+    reducers: {
+        termsCreateRequest(state) {
+            state.loading = true;
+            state.success = false;
+        },
+        termsCreateSuccess(state, action) {
+            state.loading = false;
+            state.term = action.payload;
+            state.success = true;
+        },
+        termsCreateFail(state) {
+            state.error = action.payload;
+            state.loading = false;
+            state.success = false;
+        },
+
+        termsModifyRequest(state) {
+            state.loading = true;
+            state.success = false;
+        },
+        termsModifySuccess(state, action) {
+            state.loading = false;
+            state.term = action.payload;
+            state.success = true;
+        },
+        termsModifyFail(state) {
+            state.error = action.payload;
+            state.loading = false;
+            state.success = false;
+        },
+
+        termsDeleteRequest(state) {
+            state.loading = true;
+            state.success = false;
+        },
+        termsDeleteSuccess(state, action) {
+            state.loading = false;
+            state.term = action.payload;
+            state.success = true;
+        },
+        termsDeleteFail(state) {
+            state.error = action.payload;
+            state.loading = false;
+            state.success = false;
+        },
+    },
+});
+
+export const termActions = termsReducer.actions;
+export const termReducer = termsReducer.reducer;

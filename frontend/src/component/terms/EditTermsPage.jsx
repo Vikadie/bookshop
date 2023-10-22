@@ -3,7 +3,7 @@ import CTX from "../../utils/context";
 import { Alert, Button, Col, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import TinyEditor from "../TinyEditor";
-import { checkKey, getFooterTerms } from "../../store/actions/footerActions";
+import { createKey, deleteKey, getFooterTerms, modifyKey } from "../../store/actions/footerActions";
 
 const initCurrent = {
     mainKey: "new",
@@ -11,22 +11,21 @@ const initCurrent = {
     titleEn: "",
     htmlBg: "",
     htmlEn: "",
+    id: "",
 };
 
 const EditTermsPage = () => {
     const { context } = useContext(CTX);
 
     const dispatch = useDispatch();
-    const { loading, existing, footer, error } = useSelector((state) => state.footer);
+    const { loading: footerLoading, footer, error: footerError } = useSelector((state) => state.footer);
+    const { loading, term, success, error } = useSelector((state) => state.term);
     const [curr, setCurrent] = useState(initCurrent);
-    const [errorMsg, setErrorMsg] = useState("NB!! Change the key! This one already exists");
 
     let titleKey = "title" + context.lang.charAt(0).toUpperCase() + context.lang.slice(1);
     let htmlKey = "html" + context.lang.charAt(0).toUpperCase() + context.lang.slice(1);
-    console.log(htmlKey, " htmlKey + curr[hrmlKey] = ", curr[htmlKey]);
 
     const changeEvent = (e) => {
-        console.log("changevent: ", `[${e.target.id}]: ${e.target.value}`);
         setCurrent((prev) => {
             return { ...prev, [e.target.id]: e.target.value };
         });
@@ -35,18 +34,31 @@ const EditTermsPage = () => {
     const createNewKey = () => {
         setCurrent(initCurrent);
     };
-    console.log("vurr", curr);
 
-    const checkKeyHandler = () => {
-        dispatch(checkKey(curr.mainKey));
-        setErrorMsg("NB!! Change the key! This one already exists");
+    const modifyCurrentKey = () => {
+        if (footer && curr.id && footer.find((f) => f.id === curr.id)) {
+            // put
+            dispatch(modifyKey(curr));
+        } else {
+            confirm("The key is not existing yet. Rather use 'Set new key' button");
+        }
     };
 
     const setNewKey = () => {
-        if (existing) {
-            setErrorMsg("Please, verify key uniqueness first!");
-            return;
+        if (footer && footer.find((f) => f.mainKey === curr.mainKey)) {
+            confirm("This key already exists");
+        } else {
+            // creating new after check for uniqueness
+            dispatch(createKey(curr));
         }
+    };
+
+    const deleteCurrentKey = () => {
+        if (footer && curr.id && footer.find((f) => f.id === curr.id)) {
+            // deleting
+            dispatch(deleteKey(curr.id));
+        }
+        setCurrent(initCurrent);
     };
 
     useEffect(() => {
@@ -57,29 +69,34 @@ const EditTermsPage = () => {
         }
     }, [footer]);
 
+    useEffect(() => {
+        if (success) {
+            dispatch(getFooterTerms());
+        }
+    }, [success]);
+
     return (
         <Row>
             <ListGroup className="col-12 col-sm-4 col-md-3 col-lg-2">
-                {footer?.map((f) => (
-                    <ListGroup.Item
-                        key={f.id}
-                        action
-                        onClick={() => setCurrent(f)}
-                        active={f.mainKey === curr.mainKey}
-                    >
-                        {f.mainKey}
-                    </ListGroup.Item>
-                ))}
+                {footer
+                    ?.map((f) => (
+                        <ListGroup.Item
+                            key={f.id}
+                            action
+                            onClick={() => setCurrent(f)}
+                            active={f.mainKey === curr.mainKey}
+                        >
+                            {f.mainKey}
+                        </ListGroup.Item>
+                    ))
+                    .sort((a, b) => +a.key - +b.key)}
                 <ListGroup.Item action onClick={() => createNewKey()}>
-                    <i className="fa fa-plus"></i> add new
+                    <i className="fa fa-plus"></i> start new
                 </ListGroup.Item>
             </ListGroup>
             <Col>
                 <Row>
-                    {existing && (
-                        <Alert variant={errorMsg.startsWith("NB") ? "warning" : "danger"}>{errorMsg}</Alert>
-                    )}
-                    {error && <Alert variant="danger">{error}</Alert>}
+                    {(error || footerError) && <Alert variant="danger">{error || footerError}</Alert>}
                     <Form>
                         <InputGroup>
                             <InputGroup.Text id="basic-addon0">mainKey</InputGroup.Text>
@@ -90,22 +107,40 @@ const EditTermsPage = () => {
                                 aria-describedby="basic-addon0"
                                 value={curr.mainKey}
                                 onChange={changeEvent}
+                                style={{ minWidth: "66%" }}
                             />
-                            <Button
-                                variant={existing ? "danger" : "outline-success"}
-                                id="button-addon0"
-                                onClick={checkKeyHandler}
-                            >
-                                Verify key uniqueness
-                            </Button>
-                            <Button variant="outline-danger" id="button-addon01" onClick={setNewKey}>
-                                Set this key
-                            </Button>
+                            {footer && footer.find((f) => f.id === curr.id) ? (
+                                <>
+                                    <Button
+                                        variant="outline-success"
+                                        id="button-addon0"
+                                        onClick={modifyCurrentKey}
+                                        disabled={loading || footerLoading}
+                                    >
+                                        Modify this key
+                                    </Button>
+                                    <Button
+                                        variant="danger"
+                                        id="button-addon02"
+                                        onClick={deleteCurrentKey}
+                                        disabled={loading || footerLoading}
+                                    >
+                                        Delete this key
+                                    </Button>
+                                </>
+                            ) : (
+                                <Button
+                                    variant="success"
+                                    id="button-addon01"
+                                    onClick={setNewKey}
+                                    disabled={loading || footerLoading}
+                                >
+                                    Set new key
+                                </Button>
+                            )}
                         </InputGroup>
                         <InputGroup className="mt-3">
-                            <InputGroup.Text id="basic-addon1">
-                                {"title" + context.lang.charAt(0).toUpperCase() + context.lang.slice(1)}
-                            </InputGroup.Text>
+                            <InputGroup.Text id="basic-addon1">{titleKey}</InputGroup.Text>
                             <Form.Control
                                 id={titleKey}
                                 placeholder="title"
@@ -113,6 +148,7 @@ const EditTermsPage = () => {
                                 aria-describedby="basic-addon1"
                                 value={curr[titleKey]}
                                 onChange={changeEvent}
+                                style={{ minWidth: "66%" }}
                             />
                             <InputGroup.Text id="basic-addon1">
                                 Current Language: <span style={{ color: "blue" }}>{context.lang}</span>

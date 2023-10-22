@@ -11,7 +11,7 @@ import orderReducer, {
     OrderListReducer,
     OrderDeliveredReducer,
 } from "./reducers/orderReducer";
-import footerReducer from "./reducers/footerReducer";
+import footerReducer, { termReducer } from "./reducers/footerReducer";
 
 export const initialState = {};
 // const middleware = [thunk];
@@ -36,6 +36,7 @@ export const store = configureStore({
         orders: OrderListReducer,
 
         footer: footerReducer,
+        term: termReducer,
     },
     // preloadedState: initialState,
     // middleware: middleware,
